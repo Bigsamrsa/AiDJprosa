@@ -1,161 +1,130 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BuildAI DJ - POLISHED PRO</title><script src="https://cdn.tailwindcss.com"></script>
+<title>BuildAI DJ PRO - TEMPO MATCH</title><script src="https://cdn.tailwindcss.com"></script>
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQnVpbGRBSSBEaiBQcm8iLCJzaG9ydF9uYW1lIjoiREogUHJvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzAwMDAwMCIsInRoZW1lX2NvbG9yIjoiI0ZGRDYwMCJ9">
 <meta name="theme-color" content="#FFD600">
-<style>
-.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.8)}
-.song-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vinyl{animation:spin 3s linear infinite} @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FFD600'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='60'>🎛️</text></svg>">
+<style>.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.8)}.song-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}</style>
 </head>
-<body class="bg-black text-white p-2 pb-28 font-sans">
+<body class="bg-black text-white p-2 pb-28">
 
-<!-- HEADER POLISHED -->
 <div class="flex justify-between items-center">
-<div><h1 class="font-black text-xl leading-none">BuildAI <span class="text-yellow-400">DJ PRO</span></h1><p class="text-[9px] opacity-60 tracking-[0.2em]">MASKANDI • 100 BPM • VIDEO MIX</p></div>
-<div class="flex gap-2"><div class="bg-zinc-900 px-3 py-1 rounded-full text-[10px] font-black">🔴 <span id="liveStatus">LIVE</span></div><div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black" id="bpmDisplay">100 BPM</div></div>
+<div><h1 class="font-black text-xl">BuildAI <span class="text-yellow-400">DJ PRO</span></h1><p class="text-[9px] opacity-60 tracking-[0.2em]">TEMPO MATCH • 100 BPM MASKANDI</p></div>
+<div class="flex gap-2"><div class="bg-zinc-900 px-3 py-1 rounded-full text-[10px] font-black">🔴 <span id="liveStatus">LIVE</span></div><div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black" id="bpmDisplay">100 BPM AUTO</div></div>
 </div>
 
-<!-- BG + INSTALL POLISHED -->
 <div class="bg-gradient-to-r from-yellow-400 to-amber-400 text-black rounded-2xl p-3 mt-3 flex justify-between items-center">
 <div><p class="font-black text-[12px]">🔊 BACKGROUND PLAY</p><p class="text-[9px] opacity-80" id="bgStatus">Tap to keep playing when locked</p></div>
-<div class="flex gap-2"><button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 px-4 py-2 rounded-full text-[10px] font-black">ENABLE</button><button onclick="install()" class="bg-white text-black px-4 py-2 rounded-full text-[10px] font-black">📲 INSTALL</button></div>
+<div class="flex gap-2"><button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 px-4 py-2 rounded-full text-[10px] font-black">ENABLE</button><button onclick="installApp()" class="bg-white text-black px-4 py-2 rounded-full text-[10px] font-black">📲 INSTALL</button></div>
 </div>
 
-<!-- SONG NAME DISPLAY POLISHED -->
 <div class="grid grid-cols-2 gap-2 mt-3">
-<div class="glass rounded-2xl p-3 border-2 border-yellow-400">
-<div class="flex items-center gap-2"><div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center vinyl text-black font-black text-xs">A</div><div class="flex-1 min-w-0"><p class="song-title font-black text-xs" id="songA">Demo - Maskandi Video A</p><p class="text-[8px] opacity-60">DECK A • 100 BPM • <span id="timeA">00:00</span></p></div></div>
-<div class="mt-2 h-1 bg-zinc-800 rounded-full overflow-hidden"><div id="progA" class="h-full bg-yellow-400 w-[30%]"></div></div>
-</div>
-<div class="glass rounded-2xl p-3 border border-zinc-700">
-<div class="flex items-center gap-2"><div class="w-8 h-8 bg-zinc-700 rounded-full flex items-center justify-center text-white font-black text-xs">B</div><div class="flex-1 min-w-0"><p class="song-title font-black text-xs" id="songB">Demo - Video B</p><p class="text-[8px] opacity-60">DECK B • 100 BPM • <span id="timeB">00:00</span></p></div></div>
-<div class="mt-2 h-1 bg-zinc-800 rounded-full overflow-hidden"><div id="progB" class="h-full bg-white w-[60%]"></div></div>
-</div>
+<div class="glass rounded-2xl p-3 border-2 border-yellow-400"><div class="flex gap-2"><div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-black font-black text-xs">A</div><div class="flex-1 min-w-0"><p class="song-title font-black text-xs" id="songA">Demo - Maskandi Video A</p><p class="text-[8px] opacity-60">DECK A • <span id="timeA">100 BPM</span> • <span id="speedA">1.00x</span></p></div></div><div class="mt-2 h-1 bg-zinc-800 rounded-full"><div id="progA" class="h-full bg-yellow-400 w-[30%]"></div></div></div>
+<div class="glass rounded-2xl p-3 border border-zinc-700"><div class="flex gap-2"><div class="w-8 h-8 bg-zinc-700 rounded-full flex items-center justify-center text-white font-black text-xs">B</div><div class="flex-1 min-w-0"><p class="song-title font-black text-xs" id="songB">Demo - Video B</p><p class="text-[8px] opacity-60">DECK B • <span id="timeB">100 BPM</span> • <span id="speedB">1.00x</span></p></div></div><div class="mt-2 h-1 bg-zinc-800 rounded-full"><div id="progB" class="h-full bg-white w-[60%]"></div></div></div>
 </div>
 
-<!-- VIDEO DECKS POLISHED -->
 <div class="grid grid-cols-2 gap-2 mt-3">
-<div id="deckBoxA" class="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border-2 border-yellow-400"><iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1" frameborder="0"></iframe><video id="vidA" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video><div class="absolute top-2 left-2 bg-yellow-400 text-black px-2 py-1 rounded-full text-[8px] font-black">● LIVE A</div></div>
-<div id="deckBoxB" class="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-700"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?enablejsapi=1" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video><div class="absolute top-2 left-2 bg-zinc-800 text-white px-2 py-1 rounded-full text-[8px] font-black">○ STANDBY B</div></div>
+<div class="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border-2 border-yellow-400" id="deckBoxA"><iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0"></iframe><video id="vidA" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video><audio id="audA" class="hidden"></audio></div>
+<div class="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-700" id="deckBoxB"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video><audio id="audB" class="hidden"></audio></div>
 </div>
 
-<!-- MASTER POLISHED -->
 <div class="bg-zinc-900 rounded-2xl p-3 mt-3 border border-yellow-400/20">
-<div class="flex justify-between items-center"><p class="text-[11px] font-black">🔴 MASTER OUTPUT • CROWD VIEW</p><div class="flex gap-2"><span class="bg-green-600 px-2 py-1 rounded-full text-[8px] font-black">● REC READY</span><span class="bg-yellow-400 text-black px-2 py-1 rounded-full text-[8px] font-black" id="syncStatus">🔗 SYNC 100 ON</span></div></div>
+<p class="text-[11px] font-black">🔴 MASTER MIX • <span id="mixText">50% A / 50% B</span></p>
 <div class="relative aspect-video bg-black rounded-xl overflow-hidden mt-2">
 <div id="layerA" class="absolute inset-0"><iframe id="mYtA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1" frameborder="0"></iframe><video id="mVidA" class="hidden w-full h-full" muted loop playsinline></video></div>
 <div id="layerB" class="absolute inset-0" style="opacity:0.5"><iframe id="mYtB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1" frameborder="0"></iframe><video id="mVidB" class="hidden w-full h-full" muted loop playsinline></video></div>
-<div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full flex items-center gap-3"><span id="mixAPct" class="text-yellow-400 font-black text-xs">50%</span><div class="w-20 h-1 bg-zinc-700 rounded-full"><div id="mixBar" class="h-full bg-yellow-400 w-1/2 rounded-full"></div></div><span id="mixBPct" class="font-black text-xs">50%</span></div>
 </div>
 </div>
 
-<!-- CROSSFADER POLISHED -->
+<!-- TEMPO AUTO-MATCH -->
+<div class="glass rounded-2xl p-3 mt-3 border-2 border-yellow-400">
+<p class="font-black text-[11px] text-yellow-400">🎚️ TEMPO AUTO-MATCH • 100 BPM MASKANDI LOCK</p>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div class="bg-black rounded-xl p-2 text-center">
+<p class="text-[8px] opacity-60">DECK A BPM</p>
+<div class="flex items-center justify-center gap-2 mt-1"><button onclick="bpmDown('A')" class="bg-zinc-800 w-8 h-8 rounded-full font-black">-</button><span id="bpmA" class="font-black text-yellow-400 text-lg">100</span><button onclick="bpmUp('A')" class="bg-zinc-800 w-8 h-8 rounded-full font-black">+</button></div>
+<p class="text-[8px] mt-1">Speed: <span id="speedADisplay">1.00x</span></p>
+<button onclick="tapBPM('A')" class="bg-zinc-800 mt-1 px-3 py-1 rounded-full text-[9px]">TAP A BEAT</button>
+</div>
+<div class="bg-black rounded-xl p-2 text-center">
+<p class="text-[8px] opacity-60">DECK B BPM</p>
+<div class="flex items-center justify-center gap-2 mt-1"><button onclick="bpmDown('B')" class="bg-zinc-800 w-8 h-8 rounded-full font-black">-</button><span id="bpmB" class="font-black text-white text-lg">100</span><button onclick="bpmUp('B')" class="bg-zinc-800 w-8 h-8 rounded-full font-black">+</button></div>
+<p class="text-[8px] mt-1">Speed: <span id="speedBDisplay">1.00x</span></p>
+<button onclick="tapBPM('B')" class="bg-zinc-800 mt-1 px-3 py-1 rounded-full text-[9px]">TAP B BEAT</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="toggleAutoMatch()" id="autoMatchBtn" class="bg-zinc-800 py-3 rounded-full font-black text-xs">🎚️ AUTO MATCH: OFF</button>
+<button onclick="matchTo100()" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">⚡ MATCH BOTH TO 100</button>
+</div>
+<p id="tempoStatus" class="text-[9px] text-center mt-2 text-yellow-400">TAP beat 4x to detect BPM, then MATCH to 100</p>
+</div>
+
 <div class="glass rounded-2xl p-4 mt-3">
-<div class="flex justify-between text-[10px] font-black tracking-widest opacity-60"><span>DECK A</span><span>VIDEO CROSSFADER • DRAG TO MIX</span><span>DECK B</span></div>
-<input id="xf" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-2 mt-3" oninput="doMix(this.value)">
-<div class="grid grid-cols-4 gap-2 mt-4">
+<div class="flex justify-between text-[10px] font-black opacity-60"><span>DECK A</span><span>VIDEO CROSSFADER</span><span>DECK B</span></div>
+<input id="xf" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-6 mt-2" oninput="doMix(this.value)">
+<div class="grid grid-cols-4 gap-2 mt-3">
 <button onclick="doMix(0)" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">ONLY A</button>
-<button onclick="autoMix()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">⚡ AUTO</button>
+<button onclick="autoMix()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">⚡ AUTO 8s</button>
 <button onclick="swap()" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">🔄 SWAP</button>
 <button onclick="doMix(100)" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">ONLY B</button>
 </div>
-<div class="grid grid-cols-3 gap-2 mt-3">
-<button onclick="playAll()" class="bg-yellow-400 text-black py-4 rounded-xl font-black flex items-center justify-center gap-2">▶ PLAY BOTH</button>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="playAll()" class="bg-yellow-400 text-black py-4 rounded-xl font-black">▶ PLAY BOTH</button>
 <button onclick="pauseAll()" class="bg-zinc-800 py-4 rounded-xl font-black">⏸ PAUSE</button>
-<button onclick="toggleSync()" id="syncBtn" class="bg-zinc-800 py-4 rounded-xl font-black text-[11px]">🔗 SYNC 100</button>
 </div>
-<p id="status" class="text-center text-[11px] text-yellow-400 mt-3 font-bold">✨ POLISHED PRO READY</p>
+<p id="status" class="text-center text-[11px] text-yellow-400 mt-3 font-bold">✅ TEMPO MATCH READY</p>
 </div>
 
-<!-- LIBRARY POLISHED -->
 <div class="bg-zinc-900 rounded-2xl p-3 mt-3">
-<div class="flex justify-between items-center"><p class="font-black text-xs">📚 MY LIBRARY</p><button onclick="clearLib()" class="text-[10px] opacity-60">Clear</button></div>
-<div id="library" class="mt-2 space-y-2 max-h-[150px] overflow-auto">
-<p class="text-[10px] opacity-50">Your saved songs appear here. Tap to load instantly.</p>
-</div>
-<div class="mt-3">
-<input id="ytInput" class="w-full p-3 rounded-xl bg-black border border-zinc-700 text-xs" placeholder="Paste YouTube link + tap save">
-<div class="grid grid-cols-2 gap-2 mt-2">
-<button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD A + SAVE</button>
-<button onclick="loadYT('B')" class="bg-zinc-800 py-3 rounded-full font-black text-xs">LOAD B + SAVE</button>
-</div>
-<div class="grid grid-cols-2 gap-2 mt-2">
-<button onclick="document.getElementById('fA').click()" class="bg-black border-2 border-yellow-400 py-3 rounded-full font-black text-[11px]">📁 PHONE A</button>
-<button onclick="document.getElementById('fB').click()" class="bg-black border border-zinc-600 py-3 rounded-full font-black text-[11px]">📁 PHONE B</button>
-</div>
+<p class="font-black text-xs">📚 MY LIBRARY</p><div id="library" class="mt-2 space-y-2 max-h-[120px] overflow-auto"></div>
+<input id="ytInput" class="w-full p-3 rounded-xl bg-black border border-zinc-700 text-xs mt-3" placeholder="Paste YouTube link">
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD A + SAVE</button><button onclick="loadYT('B')" class="bg-zinc-800 py-3 rounded-full font-black text-xs">LOAD B + SAVE</button></div>
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="document.getElementById('fA').click()" class="bg-black border-2 border-yellow-400 py-3 rounded-full font-black text-[11px]">📁 PHONE A</button><button onclick="document.getElementById('fB').click()" class="bg-black border border-zinc-600 py-3 rounded-full font-black text-[11px]">📁 PHONE B</button></div>
 <input type="file" id="fA" accept="video/*,audio/*" hidden><input type="file" id="fB" accept="video/*,audio/*" hidden>
-</div>
-<div class="grid grid-cols-4 gap-2 mt-3">
-<button onclick="fx('guitar')" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">🎸 Guitar 72%</button>
-<button onclick="fx('bass')" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">🥁 Isigubu 60%</button>
-<button onclick="fx('log')" class="bg-yellow-400 text-black py-2 rounded-full text-[10px] font-black">🥁 Log</button>
-<button onclick="shareWA()" class="bg-green-600 py-2 rounded-full text-[10px]">Share</button>
-</div>
+<div class="grid grid-cols-4 gap-2 mt-3"><button onclick="fx('guitar')" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">🎸 Guitar</button><button onclick="fx('bass')" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">🥁 Bass</button><button onclick="fx('log')" class="bg-yellow-400 text-black py-2 rounded-full text-[10px] font-black">Log</button><button onclick="shareWA()" class="bg-green-600 py-2 rounded-full text-[10px]">Share</button></div>
 </div>
 
 <script>
 let deferredPrompt=null; window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-function install(){if(deferredPrompt)deferredPrompt.prompt(); else alert('Chrome Menu ⋮ > Add to Home Screen > Open as App');}
+function installApp(){if(deferredPrompt)deferredPrompt.prompt(); else alert('Menu ⋮ > Add to Home Screen');}
 function enableBG(){
- if('mediaSession' in navigator){
-  navigator.mediaSession.metadata=new MediaMetadata({title:document.getElementById('songA').innerText+' x '+document.getElementById('songB').innerText,artist:'BuildAI DJ PRO - 100 BPM',album:'Maskandi Live Mix'});
-  navigator.mediaSession.setActionHandler('play',playAll); navigator.mediaSession.setActionHandler('pause',pauseAll); navigator.mediaSession.setActionHandler('nexttrack',autoMix);
- }
+ if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:'DJ PRO 100 BPM',artist:'BuildAI Maskandi',album:'Auto Tempo Match'}); navigator.mediaSession.setActionHandler('play',playAll); navigator.mediaSession.setActionHandler('pause',pauseAll);}
  if('wakeLock' in navigator)navigator.wakeLock.request('screen').catch(()=>{});
- bgStatus.innerText='✅ BG ON - lock/minimize keeps playing'; bgBtn.innerText='✅ ON'; if('serviceWorker' in navigator)navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());`],{type:'text/javascript'})));
+ bgStatus.innerText='✅ BG ON'; bgBtn.innerText='✅ ON'; status.innerText='🔊 BG ON - tempo match active';
+ if('serviceWorker' in navigator)navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());`],{type:'text/javascript'})));
 }
-
-// LIBRARY
 let lib=JSON.parse(localStorage.getItem('djLib')||'[]');
-function renderLib(){
- let el=document.getElementById('library');
- if(lib.length===0){el.innerHTML='<p class="text-[10px] opacity-50">No saved songs yet - load YouTube to save auto</p>';return;}
- el.innerHTML=lib.map((s,i)=>`<div class="bg-black p-2 rounded-xl flex justify-between items-center"><div class="flex-1 min-w-0"><p class="text-xs font-bold truncate">${s.title}</p><p class="text-[8px] opacity-60">${s.id}</p></div><div class="flex gap-1"><button onclick="quickLoad('${s.id}','A')" class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black">A</button><button onclick="quickLoad('${s.id}','B')" class="bg-zinc-700 px-3 py-1 rounded-full text-[10px]">B</button><button onclick="delLib(${i})" class="text-[10px] px-2">✕</button></div></div>`).join('');
-}
+function renderLib(){let el=document.getElementById('library'); if(lib.length===0){el.innerHTML='<p class="text-[10px] opacity-50">Load YouTube to save auto</p>';return;} el.innerHTML=lib.map((s,i)=>`<div class="bg-black p-2 rounded-xl flex justify-between"><p class="text-xs truncate flex-1">${s.title}</p><div class="flex gap-1"><button onclick="quickLoad('${s.id}','A')" class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px]">A</button><button onclick="quickLoad('${s.id}','B')" class="bg-zinc-700 px-3 py-1 rounded-full text-[10px]">B</button></div></div>`).join('');}
 function saveLib(id,title){if(!lib.find(s=>s.id===id)){lib.unshift({id,title}); if(lib.length>20)lib.pop(); localStorage.setItem('djLib',JSON.stringify(lib)); renderLib();}}
-function delLib(i){lib.splice(i,1); localStorage.setItem('djLib',JSON.stringify(lib)); renderLib();}
-function clearLib(){lib=[]; localStorage.removeItem('djLib'); renderLib();}
-function quickLoad(id,deck){document.getElementById('ytInput').value='https://youtu.be/'+id; loadYT(deck);}
-renderLib();
+function quickLoad(id,deck){ytInput.value='https://youtu.be/'+id; loadYT(deck);} renderLib();
 
-function stopDeck(deck){
- if(deck==='A'){try{vidA.pause();mVidA.pause();audA.pause();audA.currentTime=0;audA.src='';vidA.src='';}catch(e){}}
- else{try{vidB.pause();mVidB.pause();audB.pause();audB.currentTime=0;audB.src='';vidB.src='';}catch(e){}}
-}
+const ytA=document.getElementById('ytA'), ytB=document.getElementById('ytB'), vidA=document.getElementById('vidA'), vidB=document.getElementById('vidB'), mYtA=document.getElementById('mYtA'), mYtB=document.getElementById('mYtB'), mVidA=document.getElementById('mVidA'), mVidB=document.getElementById('mVidB'), audA=document.getElementById('audA'), audB=document.getElementById('audB');
 
+function stopDeck(deck){if(deck==='A'){try{vidA.pause();mVidA.pause();audA.pause();audA.currentTime=0;audA.src='';vidA.src='';}catch(e){}} else{try{vidB.pause();mVidB.pause();audB.pause();audB.currentTime=0;audB.src='';vidB.src='';}catch(e){}}}
 function getId(u){let m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
 
-function loadYT(deck){
- let url=ytInput.value.trim(); let id=getId(url); if(!id){status.innerText='❌ Bad link';return;}
- stopDeck(deck);
- setTimeout(()=>{
-  if(deck==='A'){
-   ytA.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtA.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
-   ytA.classList.remove('hidden'); vidA.classList.add('hidden'); mYtA.classList.remove('hidden'); mVidA.classList.add('hidden');
-   songA.innerText='YT: '+id; lblA.innerText='YT '+id; saveLib(id,'YT: '+id);
-  }else{
-   ytB.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtB.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
-   ytB.classList.remove('hidden'); vidB.classList.add('hidden'); mYtB.classList.remove('hidden'); mVidB.classList.add('hidden');
-   songB.innerText='YT: '+id; lblB.innerText='YT '+id; saveLib(id,'YT: '+id);
-  }
-  status.innerText='✅ '+deck+' loaded + saved to library'; enableBG();
- },100);
-}
+function loadYT(deck){let url=ytInput.value.trim(); let id=getId(url); if(!id){status.innerText='❌ Bad link';return;} stopDeck(deck); setTimeout(()=>{if(deck==='A'){ytA.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtA.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; ytA.classList.remove('hidden'); vidA.classList.add('hidden'); mYtA.classList.remove('hidden'); mVidA.classList.add('hidden'); songA.innerText='YT: '+id; saveLib(id,'YT: '+id);}else{ytB.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtB.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; ytB.classList.remove('hidden'); vidB.classList.add('hidden'); mYtB.classList.remove('hidden'); mVidB.classList.add('hidden'); songB.innerText='YT: '+id; saveLib(id,'YT: '+id);} status.innerText='✅ '+deck+' loaded - OLD STOPPED'; enableBG(); if(autoMatchOn)matchTo100();},100);}
 
-const ytA=document.getElementById('ytA'), ytB=document.getElementById('ytB'), vidA=document.getElementById('vidA'), vidB=document.getElementById('vidB'), mYtA=document.getElementById('mYtA'), mYtB=document.getElementById('mYtB'), mVidA=document.getElementById('mVidA'), mVidB=document.getElementById('mVidB'), audA=document.createElement('audio'), audB=document.createElement('audio');
+document.getElementById('fA').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('A'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidA.src=url; mVidA.src=url; vidA.classList.remove('hidden'); ytA.classList.add('hidden'); mVidA.classList.remove('hidden'); mYtA.classList.add('hidden'); vidA.play(); mVidA.play();}else{audA.src=url; audA.play(); ytA.classList.add('hidden'); vidA.classList.add('hidden');} songA.innerText=f.name.slice(0,20); enableBG(); if(autoMatchOn)matchTo100();},100);}
+document.getElementById('fB').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('B'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidB.src=url; mVidB.src=url; vidB.classList.remove('hidden'); ytB.classList.add('hidden'); mVidB.classList.remove('hidden'); mYtB.classList.add('hidden'); vidB.play(); mVidB.play();}else{audB.src=url; audB.play();} songB.innerText=f.name.slice(0,20); enableBG(); if(autoMatchOn)matchTo100();},100);}
 
-document.getElementById('fA').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('A'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidA.src=url; mVidA.src=url; vidA.classList.remove('hidden'); ytA.classList.add('hidden'); mVidA.classList.remove('hidden'); mYtA.classList.add('hidden'); vidA.play(); mVidA.play();}else{audA.src=url; audA.play();} songA.innerText=f.name; status.innerText='✅ A: '+f.name; enableBG();},100);}
-document.getElementById('fB').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('B'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidB.src=url; mVidB.src=url; vidB.classList.remove('hidden'); ytB.classList.add('hidden'); mVidB.classList.remove('hidden'); mYtB.classList.add('hidden'); vidB.play(); mVidB.play();}else{audB.src=url; audB.play();} songB.innerText=f.name; status.innerText='✅ B: '+f.name; enableBG();},100);}
+// TEMPO ENGINE
+let bpm={A:100,B:100}, autoMatchOn=false, tapTimes={A:[],B:[]};
+function bpmUp(d){bpm[d]=Math.min(200,bpm[d]+1); updateBPM(d);} function bpmDown(d){bpm[d]=Math.max(60,bpm[d]-1); updateBPM(d);}
+function updateBPM(d){document.getElementById('bpm'+d).innerText=bpm[d]; document.getElementById('time'+d).innerText=bpm[d]+' BPM'; if(autoMatchOn)matchTo100();}
+function tapBPM(d){let now=Date.now(); tapTimes[d].push(now); if(tapTimes[d].length>4)tapTimes[d].shift(); if(tapTimes[d].length>=2){let ints=[]; for(let i=1;i<tapTimes[d].length;i++)ints.push(tapTimes[d][i]-tapTimes[d][i-1]); let avg=ints.reduce((a,b)=>a+b)/ints.length; bpm[d]=Math.round(60000/avg); if(bpm[d]>=60&&bpm[d]<=200)updateBPM(d);} tempoStatus.innerText='TAP '+d+': '+bpm[d]+' BPM detected';}
+function toggleAutoMatch(){autoMatchOn=!autoMatchOn; document.getElementById('autoMatchBtn').innerText=autoMatchOn?'🎚️ AUTO MATCH: ON ✅':'🎚️ AUTO MATCH: OFF'; document.getElementById('autoMatchBtn').className=autoMatchOn?'bg-yellow-400 text-black py-3 rounded-full font-black text-xs':'bg-zinc-800 py-3 rounded-full font-black text-xs'; if(autoMatchOn)matchTo100(); else resetSpeed(); tempoStatus.innerText=autoMatchOn?'✅ ON - Both locked to 100 BPM':'OFF - Manual speed';}
+function matchTo100(){let target=100; let rateA=target/bpm.A, rateB=target/bpm.B; applyRate('A',rateA); applyRate('B',rateB); tempoStatus.innerText='⚡ MATCHED! A '+rateA.toFixed(2)+'x | B '+rateB.toFixed(2)+'x => 100 BPM';}
+function applyRate(deck,rate){rate=Math.max(0.5,Math.min(2.0,rate)); try{if(deck==='A'){vidA.playbackRate=rate; mVidA.playbackRate=rate; audA.playbackRate=rate;}else{vidB.playbackRate=rate; mVidB.playbackRate=rate; audB.playbackRate=rate;}}catch(e){} document.getElementById('speed'+deck).innerText=rate.toFixed(2)+'x'; document.getElementById('speed'+deck+'Display').innerText=rate.toFixed(2)+'x';}
+function resetSpeed(){applyRate('A',1.0); applyRate('B',1.0);}
 
-function doMix(v){let c=parseInt(v), a=(100-c)/100, b=c/100; layerA.style.opacity=a; layerB.style.opacity=b; vidA.volume=a; vidB.volume=b; audA.volume=a; audB.volume=b; mixAPct.innerText=Math.round(a*100)+'%'; mixBPct.innerText=Math.round(b*100)+'%'; mixBar.style.width=c+'%'; document.getElementById('deckBoxA').classList.toggle('border-yellow-400',c<50); document.getElementById('deckBoxB').classList.toggle('border-yellow-400',c>50);}
-function playAll(){enableBG(); vidA.play().catch(()=>{}); vidB.play().catch(()=>{}); mVidA.play().catch(()=>{}); mVidB.play().catch(()=>{}); audA.play().catch(()=>{}); audB.play().catch(()=>{}); liveStatus.innerText='PLAYING'; status.innerText='▶ PLAYING - PRO MIX';}
+function doMix(v){let c=parseInt(v), a=(100-c)/100, b=c/100; document.getElementById('layerA').style.opacity=a; document.getElementById('layerB').style.opacity=b; vidA.volume=a; vidB.volume=b; audA.volume=a; audB.volume=b; mixText.innerText=Math.round(a*100)+'% A / '+Math.round(b*100)+'% B';}
+function playAll(){enableBG(); vidA.play().catch(()=>{}); vidB.play().catch(()=>{}); mVidA.play().catch(()=>{}); mVidB.play().catch(()=>{}); audA.play().catch(()=>{}); audB.play().catch(()=>{}); liveStatus.innerText='PLAYING';}
 function pauseAll(){vidA.pause(); vidB.pause(); mVidA.pause(); mVidB.pause(); audA.pause(); audB.pause(); liveStatus.innerText='PAUSED';}
 function swap(){doMix(100-parseInt(xf.value)); xf.value=100-parseInt(xf.value);}
 function autoMix(){let s=parseInt(xf.value), t=s<50?100:0, p=0; let iv=setInterval(()=>{p+=2; if(p>=100)clearInterval(iv); let nv=s+(t-s)*(p/100); xf.value=nv; doMix(nv);},80);}
-function toggleSync(){syncStatus.innerText=syncStatus.innerText.includes('ON')?'🔗 SYNC OFF':'🔗 SYNC 100 ON'; status.innerText=syncStatus.innerText;}
-function fx(t){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); let g=ctx.createGain(); o.frequency.value=t==='log'?55:t==='bass'?80:220; g.gain.setValueAtTime(0.9,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.6); o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.6);}catch(e){} status.innerText='🎸 FX: '+t.toUpperCase();}
-function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent('🔥 My DJ Mix: '+location.href));}
+function fx(t){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); let g=ctx.createGain(); o.frequency.value=t==='log'?55:t==='bass'?80:220; g.gain.setValueAtTime(0.9,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.6); o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.6);}catch(e){} status.innerText='FX: '+t.toUpperCase();}
+function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent('🔥 DJ Mix 100 BPM: '+location.href));}
 </script>
 </body></html>
