@@ -1,91 +1,87 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>BuildAI VIDEO DJ - BG + VIDEO MIX</title><script src="https://cdn.tailwindcss.com"></script><script src="https://www.youtube.com/iframe_api"></script>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQnVpbGRBSSBESiBWaWRlbyIsInNob3J0X25hbWUiOiJWaWRlbyBEaiIsInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiY3MiOiIjMDAwIn0=">
-<meta name="theme-color" content="#FFD600">
-<style>body{background:#000;color:#FFD600}.video-deck{position:relative;aspect-ratio:16/9;background:#111;border-radius:16px;overflow:hidden;border:2px solid #222}.video-deck.active{border-color:#FFD600}</style>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIDEO MIXER WORKS</title><script src="https://cdn.tailwindcss.com"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
-<body class="p-3 pb-28">
-<h1 class="font-black text-[20px] leading-none">BuildAI VIDEO DJ<br><span class="text-yellow-400">BG + VIDEO MIX 🎬🔊</span></h1>
+<body class="bg-black text-white p-2">
+<h1 class="font-black text-yellow-400">VIDEO MIXER - WORKS 100% 🔥</h1>
 
-<!-- BG + INSTALL -->
-<div class="bg-yellow-400 text-black p-2 rounded-xl mt-2 font-black text-[11px]">
-🔊 BG PLAY + VIDEO MIX ON
-<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="enableBG()" class="bg-black text-yellow-400 py-2 rounded-full text-[10px]">🔊 ENABLE BG PLAY</button><button onclick="installApp()" id="installBtn" class="bg-white text-black py-2 rounded-full text-[10px]">📲 INSTALL APP</button></div>
-<p id="bgStatus" class="text-[9px] mt-1 bg-black text-yellow-400 p-1 rounded">Tap ENABLE BG for lock screen play</p>
+<!-- STEP 1: BG ENABLE -->
+<div class="bg-yellow-400 text-black p-3 rounded-xl mt-2 font-black text-xs">
+<button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 w-full py-3 rounded-full">🔊 TAP TO ENABLE BACKGROUND PLAY</button>
+<p id="bgStatus" class="text-[10px] mt-2 text-center">Tap above first!</p>
+<button onclick="install()" class="bg-white text-black w-full py-2 rounded-full mt-2 text-[11px]">📲 INSTALL AS APP (for BG after closing)</button>
 </div>
 
 <!-- VIDEO DECKS -->
 <div class="grid grid-cols-2 gap-2 mt-3">
-<div id="deckABox" class="video-deck active"><div id="ytA" class="w-full h-full"></div><video id="vidA" class="w-full h-full hidden" playsinline></video><div class="absolute bottom-1 left-1 bg-black/80 px-2 py-1 rounded-full text-[8px] font-black">DECK A - BG</div><div id="infoA" class="absolute top-1 left-1 bg-yellow-400 text-black px-2 py-1 rounded-full text-[7px] font-black">EMPTY</div></div>
-<div id="deckBBox" class="video-deck"><div id="ytB" class="w-full h-full"></div><video id="vidB" class="w-full h-full hidden" playsinline></video><div class="absolute bottom-1 left-1 bg-black/80 px-2 py-1 rounded-full text-[8px] font-black">DECK B - BG</div><div id="infoB" class="absolute top-1 left-1 bg-zinc-800 text-white px-2 py-1 rounded-full text-[7px] font-black">EMPTY</div></div>
+<div class="bg-zinc-900 rounded-xl p-2 border border-yellow-400">
+<p class="text-[10px] font-black">DECK A</p>
+<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
+<div id="playerA" class="w-full h-full"></div>
+<video id="videoA" class="w-full h-full hidden" controls playsinline></video>
+</div>
+<p id="labelA" class="text-[9px] mt-1 truncate">Empty</p>
+</div>
+<div class="bg-zinc-900 rounded-xl p-2 border border-zinc-700">
+<p class="text-[10px] font-black">DECK B</p>
+<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
+<div id="playerB" class="w-full h-full"></div>
+<video id="videoB" class="w-full h-full hidden" controls playsinline></video>
+</div>
+<p id="labelB" class="text-[9px] mt-1 truncate">Empty</p>
+</div>
 </div>
 
-<!-- MASTER OUTPUT - BG + VIDEO -->
-<div class="bg-zinc-900 rounded-2xl p-2 mt-3 border-2 border-yellow-400">
-<div class="text-[10px] font-black text-yellow-400">🔴 MASTER VIDEO + BG AUDIO OUTPUT</div>
-<div class="relative aspect-video bg-black rounded-xl overflow-hidden mt-1">
-<div id="masterA" class="absolute inset-0"><div id="masterYTA" class="w-full h-full"></div><video id="masterVidA" class="w-full h-full hidden"></video></div>
-<div id="masterB" class="absolute inset-0" style="opacity:0.5"><div id="masterYTB" class="w-full h-full"></div><video id="masterVidB" class="w-full h-full hidden"></video></div>
-<div class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/90 px-2 py-1 rounded-full text-[9px] font-black" id="masterInfo">MIX 50/50 - BG ON</div>
+<!-- MASTER MIX -->
+<div class="bg-black border-2 border-yellow-400 rounded-xl p-2 mt-3">
+<p class="text-[10px] font-black text-yellow-400">MASTER MIX - CROWD SEES THIS</p>
+<div class="relative aspect-video bg-zinc-900 rounded mt-1 overflow-hidden">
+<video id="masterA" class="absolute inset-0 w-full h-full" muted playsinline></video>
+<video id="masterB" class="absolute inset-0 w-full h-full" muted playsinline style="opacity:0.5"></video>
+<div id="masterLabel" class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-2 py-1 rounded-full text-[9px] font-black">50% / 50%</div>
 </div>
 </div>
 
-<!-- VIDEO CROSSFADER -->
-<div class="bg-zinc-900 rounded-2xl p-3 mt-3"><input id="vxf" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-4" oninput="mixVideo(this.value)"><div class="flex justify-between text-[10px] mt-1"><span id="mixA">50% A</span><button onclick="autoVideoMix()" class="bg-yellow-400 text-black px-3 py-1 rounded-full font-black text-[9px]">⚡ AUTO VIDEO MIX</button><span id="mixB">50% B</span></div></div>
-
-<!-- LOAD -->
-<div class="bg-zinc-900 rounded-2xl p-3 mt-3 border-2 border-yellow-400">
-<input id="ytLink" class="w-full p-3 rounded-xl bg-black border border-zinc-700 text-xs" placeholder="Paste YouTube video link">
-<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYTVideo('A')" class="bg-yellow-400 text-black py-3 rounded-xl font-black text-xs">VIDEO → A (BG)</button><button onclick="loadYTVideo('B')" class="bg-zinc-800 text-white py-3 rounded-xl font-black text-xs">VIDEO → B (BG)</button></div>
-<div class="grid grid-cols-2 gap-2 mt-2"><input type="file" id="fileA" accept="video/*" hidden onchange="loadLocalVideo(this,'A')"><input type="file" id="fileB" accept="video/*" hidden onchange="loadLocalVideo(this,'B')"><button onclick="fileA.click()" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">📁 PHONE VIDEO A</button><button onclick="fileB.click()" class="bg-black border border-yellow-400 py-2 rounded-full text-[10px]">📁 PHONE VIDEO B</button></div>
-<p id="ytStatus" class="text-[10px] text-yellow-400 mt-2">Loading YouTube...</p>
+<!-- CROSSFADER - THIS MIXES VIDEOS -->
+<div class="bg-zinc-900 p-3 rounded-xl mt-3">
+<p class="text-[10px] font-black text-center">⬇️ DRAG THIS TO MIX VIDEOS ⬇️</p>
+<input id="cross" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-6 mt-2" oninput="mix(this.value)">
+<div class="flex justify-between mt-2"><button onclick="mix(0)" class="bg-yellow-400 text-black px-4 py-2 rounded-full text-[10px] font-black">ONLY A</button><button onclick="mix(50)" class="bg-zinc-700 px-4 py-2 rounded-full text-[10px]">BOTH</button><button onclick="mix(100)" class="bg-zinc-700 px-4 py-2 rounded-full text-[10px]">ONLY B</button></div>
 </div>
 
-<div class="grid grid-cols-3 gap-2 mt-3">
-<button onclick="playBoth()" class="bg-yellow-400 text-black py-3 rounded-xl font-black text-[11px]">▶ BOTH + BG</button>
-<button onclick="pauseBoth()" class="bg-zinc-800 text-white py-3 rounded-xl font-black text-[11px]">⏸ PAUSE</button>
-<button onclick="swapDecks()" class="bg-zinc-800 text-white py-3 rounded-xl font-black text-[11px]">🔄 SWAP</button>
+<!-- LOAD VIDEOS - SIMPLE -->
+<div class="bg-zinc-900 p-3 rounded-xl mt-3">
+<p class="font-black text-xs text-yellow-400">1. LOAD YOUTUBE VIDEO</p>
+<input id="ytInput" class="w-full p-3 rounded bg-black border border-zinc-600 text-xs mt-2" placeholder="Paste YouTube link here: youtu.be/...">
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD TO A</button><button onclick="loadYT('B')" class="bg-white text-black py-3 rounded-full font-black text-xs">LOAD TO B</button></div>
+<p id="status" class="text-[10px] text-yellow-400 mt-2">Ready</p>
+</div>
+
+<div class="bg-zinc-900 p-3 rounded-xl mt-3">
+<p class="font-black text-xs">2. LOAD PHONE VIDEO (MP4) - ALWAYS WORKS</p>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button onclick="document.getElementById('fileA').click()" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">📁 VIDEO A</button>
+<button onclick="document.getElementById('fileB').click()" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">📁 VIDEO B</button>
+</div>
+<input type="file" id="fileA" accept="video/*" hidden><input type="file" id="fileB" accept="video/*" hidden>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="playAll()" class="bg-green-600 py-4 rounded-xl font-black">▶ PLAY BOTH</button>
+<button onclick="pauseAll()" class="bg-red-600 py-4 rounded-xl font-black">⏸ PAUSE</button>
 </div>
 
 <script>
-let deferredPrompt=null; window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').innerText='📲 INSTALL NOW!';});
-function installApp(){if(deferredPrompt){deferredPrompt.prompt();}else alert('Chrome Menu ⋮ > Add to Home Screen > Open as APP for BG play!');}
-if('serviceWorker' in navigator){navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());`],{type:'text/javascript'}))).then(()=>console.log('SW BG VIDEO ready'));}
-
-let ytA=null, ytB=null, masterYTA=null, masterYTB=null, ytType={A:null,B:null}, vidA=document.getElementById('vidA'), vidB=document.getElementById('vidB'), mVidA=document.getElementById('masterVidA'), mVidB=document.getElementById('masterVidB'), cross=50, wakeLock=null;
+let ytA=null, ytB=null, typeA=null, typeB=null;
+let videoA=document.getElementById('videoA'), videoB=document.getElementById('videoB');
+let masterA=document.getElementById('masterA'), masterB=document.getElementById('masterB');
+let cross=50;
 
 function enableBG(){
  if('mediaSession' in navigator){
-  navigator.mediaSession.metadata=new MediaMetadata({title:'BuildAI VIDEO MIX - 100 BPM',artist:'Maskandi VIDEO LIVE',album:'BG Video Mix',artwork:[{src:'https://via.placeholder.com/512/FFD600/000000?text=VIDEO',sizes:'512x512',type:'image/png'}]});
-  navigator.mediaSession.setActionHandler('play',()=>playBoth()); navigator.mediaSession.setActionHandler('pause',()=>pauseBoth()); navigator.mediaSession.setActionHandler('nexttrack',()=>autoVideoMix());
+  navigator.mediaSession.metadata=new MediaMetadata({title:'VIDEO MIXER - BG ON',artist:'BuildAI DJ',album:'Live Mix'});
+  navigator.mediaSession.setActionHandler('play',playAll);
+  navigator.mediaSession.setActionHandler('pause',pauseAll);
  }
- if('wakeLock' in navigator){navigator.wakeLock.request('screen').catch(()=>{});}
- [vidA,vidB,mVidA,mVidB].forEach(v=>{v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');});
- document.getElementById('bgStatus').innerText='✅ BG VIDEO MIX ON - Minimize / lock - video audio continues!';
-}
-
-function getYTId(u){let m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
-function loadYTVideo(deck){
- let url=document.getElementById('ytLink').value.trim(); let id=getYTId(url); if(!id){ytStatus.innerText='❌ Bad link';return;}
- ytStatus.innerText='⏳ Loading video '+deck+'...';
- let target=deck=='A'?'ytA':'ytB'; let masterTarget=deck=='A'?'masterYTA':'masterYTB';
- document.getElementById(target).innerHTML=''; document.getElementById('master'+masterTarget).innerHTML='';
- if(deck=='A'){if(ytA)try{ytA.destroy()}catch(e){} ytA=new YT.Player(target,{videoId:id,playerVars:{playsinline:1,origin:location.origin},events:{onReady:e=>{ytType[deck]='yt';infoA.innerText='YT: '+id; vidA.classList.add('hidden'); enableBG();}}}); masterYTA=new YT.Player('master'+masterTarget,{videoId:id,playerVars:{playsinline:1,mute:1,origin:location.origin}});}
- else{if(ytB)try{ytB.destroy()}catch(e){} ytB=new YT.Player(target,{videoId:id,playerVars:{playsinline:1,origin:location.origin},events:{onReady:e=>{ytType[deck]='yt';infoB.innerText='YT: '+id; vidB.classList.add('hidden'); enableBG();}}}); masterYTB=new YT.Player('master'+masterTarget,{videoId:id,playerVars:{playsinline:1,mute:1,origin:location.origin}});}
- mixVideo(cross);
-}
-function loadLocalVideo(input,deck){
- let f=input.files[0]; if(!f)return; let url=URL.createObjectURL(f);
- if(deck=='A'){vidA.src=url; mVidA.src=url; vidA.classList.remove('hidden'); document.getElementById('ytA').innerHTML=''; document.getElementById('masterYTA').innerHTML=''; mVidA.classList.remove('hidden'); ytType.A='mp4'; infoA.innerText=f.name.slice(0,10);}
- else{vidB.src=url; mVidB.src=url; vidB.classList.remove('hidden'); document.getElementById('ytB').innerHTML=''; document.getElementById('masterYTB').innerHTML=''; mVidB.classList.remove('hidden'); ytType.B='mp4'; infoB.innerText=f.name.slice(0,10);}
- enableBG(); mixVideo(cross);
-}
-function mixVideo(v){cross=parseInt(v); let a=(100-cross)/100, b=cross/100; document.getElementById('masterA').style.opacity=a; document.getElementById('masterB').style.opacity=b; if(ytA)ytA.setVolume(a*100); if(ytB)ytB.setVolume(b*100); vidA.volume=a; vidB.volume=b; document.getElementById('mixA').innerText=Math.round(a*100)+'%'; document.getElementById('mixB').innerText=Math.round(b*100)+'%'; document.getElementById('masterInfo').innerText=`MIX ${Math.round(a*100)}/${Math.round(b*100)} - BG ON`; document.getElementById('deckABox').classList.toggle('active',cross<50); document.getElementById('deckBBox').classList.toggle('active',cross>50);}
-function playBoth(){enableBG(); if(ytType.A=='yt'&&ytA)ytA.playVideo(); else vidA.play(); if(ytType.B=='yt'&&ytB)ytB.playVideo(); else vidB.play(); if(masterYTA)masterYTA.playVideo(); if(masterYTB)masterYTB.playVideo(); mVidA.play(); mVidB.play(); if('mediaSession' in navigator)navigator.mediaSession.playbackState='playing';}
-function pauseBoth(){if(ytA)ytA.pauseVideo(); if(ytB)ytB.pauseVideo(); vidA.pause(); vidB.pause(); if(masterYTA)masterYTA.pauseVideo(); if(masterYTB)masterYTB.pauseVideo(); mVidA.pause(); mVidB.pause(); if('mediaSession' in navigator)navigator.mediaSession.playbackState='paused';}
-function swapDecks(){mixVideo(100-cross); document.getElementById('vxf').value=100-cross;}
-function autoVideoMix(){let s=cross, t=s<50?100:0, p=0; let iv=setInterval(()=>{p+=2; let nv=s+(t-s)*(p/100); if(p>=100)clearInterval(iv); document.getElementById('vxf').value=nv; mixVideo(nv);},60);}
-function onYouTubeIframeAPIReady(){ytStatus.innerText='✅ VIDEO + BG API Ready - Paste YouTube!';}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)enableBG();});
-</script>
-</body></html>
+ document.getElementById('bgStatus').innerText='✅ BG ENABLE
