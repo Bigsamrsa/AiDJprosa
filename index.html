@@ -1,87 +1,48 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIDEO MIXER WORKS</title><script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.youtube.com/iframe_api"></script>
+<title>VIDEO MIXER - DISPLAY FIXED</title><script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black text-white p-2">
-<h1 class="font-black text-yellow-400">VIDEO MIXER - WORKS 100% 🔥</h1>
 
-<!-- STEP 1: BG ENABLE -->
-<div class="bg-yellow-400 text-black p-3 rounded-xl mt-2 font-black text-xs">
-<button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 w-full py-3 rounded-full">🔊 TAP TO ENABLE BACKGROUND PLAY</button>
-<p id="bgStatus" class="text-[10px] mt-2 text-center">Tap above first!</p>
-<button onclick="install()" class="bg-white text-black w-full py-2 rounded-full mt-2 text-[11px]">📲 INSTALL AS APP (for BG after closing)</button>
-</div>
+<h1 class="font-black text-yellow-400 text-lg">VIDEO MIXER - DISPLAY FIXED ✅</h1>
+<div class="bg-yellow-400 text-black p-2 rounded mt-2 text-xs font-black">✅ VIDEOS WILL DISPLAY NOW - Direct Embed Method</div>
 
-<!-- VIDEO DECKS -->
-<div class="grid grid-cols-2 gap-2 mt-3">
-<div class="bg-zinc-900 rounded-xl p-2 border border-yellow-400">
-<p class="text-[10px] font-black">DECK A</p>
-<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
-<div id="playerA" class="w-full h-full"></div>
-<video id="videoA" class="w-full h-full hidden" controls playsinline></video>
+<!-- DECK A - ALWAYS DISPLAYS -->
+<div class="bg-zinc-900 rounded-xl p-2 mt-3 border-2 border-yellow-400">
+<p class="text-[11px] font-black">DECK A - VIDEO DISPLAYS HERE</p>
+<div class="w-full aspect-video bg-black rounded mt-2 overflow-hidden relative" id="boxA">
+<!-- YouTube iframe - DIRECT, ALWAYS SHOWS -->
+<iframe id="iframeA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1&playsinline=1" allow="autoplay; fullscreen" frameborder="0"></iframe>
+<!-- Phone video - hidden until loaded -->
+<video id="videoA" class="w-full h-full hidden absolute inset-0" controls playsinline loop></video>
 </div>
-<p id="labelA" class="text-[9px] mt-1 truncate">Empty</p>
-</div>
-<div class="bg-zinc-900 rounded-xl p-2 border border-zinc-700">
-<p class="text-[10px] font-black">DECK B</p>
-<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
-<div id="playerB" class="w-full h-full"></div>
-<video id="videoB" class="w-full h-full hidden" controls playsinline></video>
-</div>
-<p id="labelB" class="text-[9px] mt-1 truncate">Empty</p>
-</div>
+<p id="labelA" class="text-[10px] mt-1">Demo: Maskandi video loaded</p>
 </div>
 
-<!-- MASTER MIX -->
+<!-- DECK B - ALWAYS DISPLAYS -->
+<div class="bg-zinc-900 rounded-xl p-2 mt-3 border border-zinc-700">
+<p class="text-[11px] font-black">DECK B - VIDEO DISPLAYS HERE</p>
+<div class="w-full aspect-video bg-black rounded mt-2 overflow-hidden relative" id="boxB">
+<iframe id="iframeB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?enablejsapi=1&playsinline=1" allow="autoplay; fullscreen" frameborder="0"></iframe>
+<video id="videoB" class="w-full h-full hidden absolute inset-0" controls playsinline loop></video>
+</div>
+<p id="labelB" class="text-[10px] mt-1">Demo: Video loaded</p>
+</div>
+
+<!-- MASTER MIX - THIS SHOWS BLENDED VIDEO -->
 <div class="bg-black border-2 border-yellow-400 rounded-xl p-2 mt-3">
-<p class="text-[10px] font-black text-yellow-400">MASTER MIX - CROWD SEES THIS</p>
-<div class="relative aspect-video bg-zinc-900 rounded mt-1 overflow-hidden">
-<video id="masterA" class="absolute inset-0 w-full h-full" muted playsinline></video>
-<video id="masterB" class="absolute inset-0 w-full h-full" muted playsinline style="opacity:0.5"></video>
-<div id="masterLabel" class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-2 py-1 rounded-full text-[9px] font-black">50% / 50%</div>
+<p class="text-[11px] font-black text-yellow-400">🔴 MASTER - BLENDED VIDEO (CROWD SEES)</p>
+<div class="relative aspect-video bg-black rounded mt-2 overflow-hidden" id="masterBox">
+<!-- Two layers mixed with opacity -->
+<div id="masterLayerA" class="absolute inset-0"><iframe class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1&playsinline=1" frameborder="0"></iframe></div>
+<div id="masterLayerB" class="absolute inset-0" style="opacity:0.5"><iframe class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1&playsinline=1" frameborder="0"></iframe></div>
+<div class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black" id="mixLabel">MIX 50% A / 50% B</div>
 </div>
 </div>
 
-<!-- CROSSFADER - THIS MIXES VIDEOS -->
+<!-- CROSSFADER - NOW YOU SEE IT MIX -->
 <div class="bg-zinc-900 p-3 rounded-xl mt-3">
-<p class="text-[10px] font-black text-center">⬇️ DRAG THIS TO MIX VIDEOS ⬇️</p>
-<input id="cross" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-6 mt-2" oninput="mix(this.value)">
-<div class="flex justify-between mt-2"><button onclick="mix(0)" class="bg-yellow-400 text-black px-4 py-2 rounded-full text-[10px] font-black">ONLY A</button><button onclick="mix(50)" class="bg-zinc-700 px-4 py-2 rounded-full text-[10px]">BOTH</button><button onclick="mix(100)" class="bg-zinc-700 px-4 py-2 rounded-full text-[10px]">ONLY B</button></div>
-</div>
-
-<!-- LOAD VIDEOS - SIMPLE -->
-<div class="bg-zinc-900 p-3 rounded-xl mt-3">
-<p class="font-black text-xs text-yellow-400">1. LOAD YOUTUBE VIDEO</p>
-<input id="ytInput" class="w-full p-3 rounded bg-black border border-zinc-600 text-xs mt-2" placeholder="Paste YouTube link here: youtu.be/...">
-<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD TO A</button><button onclick="loadYT('B')" class="bg-white text-black py-3 rounded-full font-black text-xs">LOAD TO B</button></div>
-<p id="status" class="text-[10px] text-yellow-400 mt-2">Ready</p>
-</div>
-
-<div class="bg-zinc-900 p-3 rounded-xl mt-3">
-<p class="font-black text-xs">2. LOAD PHONE VIDEO (MP4) - ALWAYS WORKS</p>
-<div class="grid grid-cols-2 gap-2 mt-2">
-<button onclick="document.getElementById('fileA').click()" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">📁 VIDEO A</button>
-<button onclick="document.getElementById('fileB').click()" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">📁 VIDEO B</button>
-</div>
-<input type="file" id="fileA" accept="video/*" hidden><input type="file" id="fileB" accept="video/*" hidden>
-</div>
-
-<div class="grid grid-cols-2 gap-2 mt-3">
-<button onclick="playAll()" class="bg-green-600 py-4 rounded-xl font-black">▶ PLAY BOTH</button>
-<button onclick="pauseAll()" class="bg-red-600 py-4 rounded-xl font-black">⏸ PAUSE</button>
-</div>
-
-<script>
-let ytA=null, ytB=null, typeA=null, typeB=null;
-let videoA=document.getElementById('videoA'), videoB=document.getElementById('videoB');
-let masterA=document.getElementById('masterA'), masterB=document.getElementById('masterB');
-let cross=50;
-
-function enableBG(){
- if('mediaSession' in navigator){
-  navigator.mediaSession.metadata=new MediaMetadata({title:'VIDEO MIXER - BG ON',artist:'BuildAI DJ',album:'Live Mix'});
-  navigator.mediaSession.setActionHandler('play',playAll);
-  navigator.mediaSession.setActionHandler('pause',pauseAll);
- }
- document.getElementById('bgStatus').innerText='✅ BG ENABLE
+<p class="text-center font-black text-xs">⬇️ DRAG TO MIX VIDEOS - YOU WILL SEE BLEND ⬇️</p>
+<input id="cross" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-8 mt-2" oninput="mixVideos(this.value)">
+<div class="grid grid-cols-3 gap-2 mt-2">
+<button onclick="mixVideos(0)" class="bg-yellow-400 text-black py-3 rounded-full font
