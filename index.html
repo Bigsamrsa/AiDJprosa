@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BuildAI DJ - VIDEO CROSSOVER FIXED</title><script src="https://cdn.tailwindcss.com"></script>
-<style>
-.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.9)}
-#layerA,#layerB{transition:opacity 0.3s ease!important}
-.video-layer iframe,.video-layer video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-</style>
+<title>BuildAI DJ - AI TEMPO MODE</title><script src="https://cdn.tailwindcss.com"></script>
+<style>.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.9)}#layerA,#layerB{transition:opacity 0.3s ease}.ai-pulse{animation:pulse 1s infinite} @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}</style>
 </head>
-<body class="bg-black text-white p-2 pb-28">
+<body class="bg-black text-white p-2 pb-32">
 
-<div class="flex justify-between"><h1 class="font-black">BuildAI <span class="text-yellow-400">DJ PRO</span></h1><div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black">VIDEO X-FIXED ✅</div></div>
+<div class="flex justify-between items-center"><h1 class="font-black">BuildAI <span class="text-yellow-400">DJ</span> 🤖 AI TEMPO</h1><div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black animate-pulse">AI MODE</div></div>
 
-<div class="bg-yellow-400 text-black rounded-2xl p-2 mt-2 flex justify-between"><p class="font-black text-xs">🔊 BG PLAY</p><button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 px-4 py-2 rounded-full text-[10px] font-black">ENABLE</button></div>
+<!-- AI TEMPO MODE PANEL -->
+<div class="bg-gradient-to-r from-purple-600 to-yellow-400 rounded-2xl p-3 mt-3">
+<div class="flex justify-between items-center"><p class="font-black text-sm">🤖 AI TEMPO MODE</p><div id="aiStatus" class="bg-black text-yellow-400 px-3 py-1 rounded-full text-[10px] font-black">READY</div></div>
+<p class="text-[10px] mt-1 text-black/80">AI listens to beat, detects BPM, auto-locks to 100 BPM Maskandi</p>
+<div class="grid grid-cols-3 gap-2 mt-3">
+<button onclick="toggleAIMode()" id="aiBtn" class="bg-black text-white py-3 rounded-full font-black text-xs">🤖 TURN AI ON</button>
+<button onclick="aiDetectBoth()" class="bg-white text-black py-3 rounded-full font-black text-xs">🔍 AI DETECT BOTH</button>
+<button onclick="aiAutoMatch()" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs border-2 border-black">⚡ AI MATCH 100</button>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2 text-[9px]">
+<div class="bg-black/50 rounded-xl p-2"><p>DECK A AI</p><p id="aiA" class="font-black text-yellow-300">100 BPM • 1.00x • Locked</p><div class="w-full bg-black rounded-full h-1 mt-1"><div id="aiBarA" class="bg-yellow-400 h-1 rounded-full w-[50%]"></div></div></div>
+<div class="bg-black/50 rounded-xl p-2"><p>DECK B AI</p><p id="aiB" class="font-black">100 BPM • 1.00x • Standby</p><div class="w-full bg-black rounded-full h-1 mt-1"><div id="aiBarB" class="bg-white h-1 rounded-full w-[50%]"></div></div></div>
+</div>
+</div>
 
-<div class="grid grid-cols-2 gap-2 mt-2">
-<div class="glass rounded-2xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A</p><p class="text-[8px]">A • <span id="speedA">1.00x</span> • <span id="bpmA">100 BPM</span></p></div>
-<div class="glass rounded-2xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B</p><p class="text-[8px]">B • <span id="speedB">1.00x</span> • <span id="bpmB">100 BPM</span></p></div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<div class="glass rounded-xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A - 100 BPM</p><p class="text-[8px]">AI: <span id="bpmA">100 BPM</span> • <span id="speedA">1.00x</span></p><button onclick="aiDetect('A')" class="mt-1 bg-zinc-800 px-2 py-1 rounded-full text-[8px]">🤖 AI DETECT A</button></div>
+<div class="glass rounded-xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B - 100 BPM</p><p class="text-[8px]">AI: <span id="bpmB">100 BPM</span> • <span id="speedB">1.00x</span></p><button onclick="aiDetect('B')" class="mt-1 bg-zinc-800 px-2 py-1 rounded-full text-[8px]">🤖 AI DETECT B</button></div>
 </div>
 
 <div class="grid grid-cols-2 gap-2 mt-2">
@@ -23,44 +32,15 @@
 <div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full" controls playsinline loop></video><audio id="audB" class="hidden"></audio></div>
 </div>
 
-<!-- MASTER VIDEO CROSSOVER FIXED -->
 <div class="bg-black border-2 border-yellow-400 rounded-2xl p-2 mt-3">
-<p class="text-[10px] font-black">🔴 MASTER VIDEO MIX • FIXED CROSSOVER</p>
-<div class="relative aspect-video bg-black rounded-xl overflow-hidden mt-2" id="masterStage">
-<!-- LAYER A - FIXED -->
-<div id="layerA" class="video-layer absolute inset-0" style="opacity:1; z-index:2">
-<iframe id="mYtA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1&controls=0" frameborder="0"></iframe>
-<video id="mVidA" class="hidden w-full h-full" muted loop playsinline></video>
-<div class="absolute top-2 left-2 bg-yellow-400 text-black px-2 py-1 rounded-full text-[8px] font-black">A LIVE</div>
-</div>
-<!-- LAYER B - FIXED -->
-<div id="layerB" class="video-layer absolute inset-0" style="opacity:0; z-index:1">
-<iframe id="mYtB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1&controls=0" frameborder="0"></iframe>
-<video id="mVidB" class="hidden w-full h-full" muted loop playsinline></video>
-<div class="absolute top-2 right-2 bg-white text-black px-2 py-1 rounded-full text-[8px] font-black">B READY</div>
-</div>
-<!-- MIX INDICATOR -->
-<div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass px-4 py-1 rounded-full z-10 flex gap-2 text-[10px] font-black"><span id="mixAPct" class="text-yellow-400">100% A</span><span id="mixBPct">0% B</span></div>
+<p class="text-[10px] font-black">🔴 MASTER • AI SYNCED 100 BPM</p>
+<div class="relative aspect-video bg-black rounded-xl overflow-hidden mt-2">
+<div id="layerA" class="absolute inset-0" style="opacity:1;z-index:2"><iframe id="mYtA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1" frameborder="0"></iframe><video id="mVidA" class="hidden w-full h-full" muted loop playsinline></video></div>
+<div id="layerB" class="absolute inset-0" style="opacity:0;z-index:1"><iframe id="mYtB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1" frameborder="0"></iframe><video id="mVidB" class="hidden w-full h-full" muted loop playsinline></video></div>
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full text-[10px] font-black z-10"><span id="mixAPct" class="text-yellow-400">100% A</span> • <span id="mixBPct">0% B</span> • <span id="aiLock">🤖 AI LOCKED</span></div>
 </div>
 </div>
 
-<!-- TEMPO -->
-<div class="glass rounded-2xl p-3 mt-3 border border-yellow-400">
-<div class="grid grid-cols-2 gap-2">
-<div class="bg-black rounded-xl p-2 text-center"><p class="text-[8px]">DECK A</p><div class="flex justify-center gap-2"><button onclick="bpmDown('A')" class="bg-zinc-800 w-8 h-8 rounded-full">-</button><span id="bpmADisplay" class="font-black text-yellow-400">100</span><button onclick="bpmUp('A')" class="bg-zinc-800 w-8 h-8 rounded-full">+</button></div></div>
-<div class="bg-black rounded-xl p-2 text-center"><p class="text-[8px]">DECK B</p><div class="flex justify-center gap-2"><button onclick="bpmDown('B')" class="bg-zinc-800 w-8 h-8 rounded-full">-</button><span id="bpmBDisplay" class="font-black">100</span><button onclick="bpmUp('B')" class="bg-zinc-800 w-8 h-8 rounded-full">+</button></div></div>
-</div>
-<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="toggleAutoMatch()" id="autoMatchBtn" class="bg-zinc-800 py-2 rounded-full text-xs font-black">AUTO MATCH OFF</button><button onclick="matchTo100()" class="bg-yellow-400 text-black py-2 rounded-full text-xs font-black">MATCH TO 100</button></div>
-</div>
-
-<!-- CROSSFADER FIXED -->
-<div class="glass rounded-2xl p-4 mt-3">
-<p class="text-[10px] font-black text-center tracking-widest opacity-60">VIDEO CROSSFADER • SMOOTH FIXED</p>
-<input id="xf" type="range" min="0" max="100" value="0" class="w-full accent-yellow-400 h-8 mt-3" oninput="doMix(this.value)">
-<div class="grid grid-cols-4 gap-2 mt-3">
-<button onclick="doMix(0)" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">A ONLY</button>
-<button onclick="autoMix()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">AUTO</button>
-<button onclick="swap()" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">SWAP</button>
-<button onclick="doMix(100)" class="bg-zinc-800 py-3 rounded-full font-black text-[11px]">B ONLY</button>
-</div>
-<div class="grid grid-cols-2 gap-2 mt-3"><button onclick="playAll()" class="bg
+<div class="glass rounded-2xl p-3 mt-3">
+<input id="xf" type="range" min="0" max="100" value="0" class="w-full accent-yellow-400 h-8" oninput="doMix(this.value)">
+<div class="grid grid-cols-3 gap-2 mt-2"><button
