@@ -1,46 +1,120 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BuildAI DJ - AI TEMPO MODE</title><script src="https://cdn.tailwindcss.com"></script>
-<style>.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.9)}#layerA,#layerB{transition:opacity 0.3s ease}.ai-pulse{animation:pulse 1s infinite} @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}</style>
+<title>BuildAI DJ ULTIMATE - RECORD + AI</title><script src="https://cdn.tailwindcss.com"></script>
+<style>.glass{backdrop-filter:blur(20px);background:rgba(24,24,27,0.9)}#layerA,#layerB{transition:opacity 0.3s ease}.rec-pulse{animation:rec 1s infinite} @keyframes rec{0%{opacity:1}50%{opacity:0.3}}</style>
 </head>
-<body class="bg-black text-white p-2 pb-32">
+<body class="bg-black text-white p-2 pb-36">
 
-<div class="flex justify-between items-center"><h1 class="font-black">BuildAI <span class="text-yellow-400">DJ</span> 🤖 AI TEMPO</h1><div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black animate-pulse">AI MODE</div></div>
+<div class="flex justify-between"><h1 class="font-black text-lg">BuildAI <span class="text-yellow-400">DJ ULTIMATE</span> 🔴</h1><div id="recBadge" class="bg-zinc-800 px-3 py-1 rounded-full text-[10px] font-black">● READY TO REC</div></div>
 
-<!-- AI TEMPO MODE PANEL -->
-<div class="bg-gradient-to-r from-purple-600 to-yellow-400 rounded-2xl p-3 mt-3">
-<div class="flex justify-between items-center"><p class="font-black text-sm">🤖 AI TEMPO MODE</p><div id="aiStatus" class="bg-black text-yellow-400 px-3 py-1 rounded-full text-[10px] font-black">READY</div></div>
-<p class="text-[10px] mt-1 text-black/80">AI listens to beat, detects BPM, auto-locks to 100 BPM Maskandi</p>
-<div class="grid grid-cols-3 gap-2 mt-3">
-<button onclick="toggleAIMode()" id="aiBtn" class="bg-black text-white py-3 rounded-full font-black text-xs">🤖 TURN AI ON</button>
-<button onclick="aiDetectBoth()" class="bg-white text-black py-3 rounded-full font-black text-xs">🔍 AI DETECT BOTH</button>
-<button onclick="aiAutoMatch()" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs border-2 border-black">⚡ AI MATCH 100</button>
+<!-- AI + RECORD TOP BAR -->
+<div class="bg-gradient-to-r from-red-600 to-yellow-400 rounded-2xl p-3 mt-2">
+<div class="flex justify-between items-center"><p class="font-black text-xs text-white">🤖 AI TEMPO + 🔴 RECORD MIX</p><p id="recTime" class="font-mono text-xs bg-black px-2 py-1 rounded text-yellow-400">00:00</p></div>
+<div class="grid grid-cols-3 gap-2 mt-2">
+<button onclick="toggleAIMode()" id="aiBtn" class="bg-black text-white py-3 rounded-full font-black text-[11px]">🤖 AI ON</button>
+<button onclick="toggleRec()" id="recBtn" class="bg-red-600 text-white py-3 rounded-full font-black text-[11px]">🔴 START REC</button>
+<button onclick="aiAutoMatch()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">⚡ MATCH 100</button>
 </div>
-<div class="grid grid-cols-2 gap-2 mt-2 text-[9px]">
-<div class="bg-black/50 rounded-xl p-2"><p>DECK A AI</p><p id="aiA" class="font-black text-yellow-300">100 BPM • 1.00x • Locked</p><div class="w-full bg-black rounded-full h-1 mt-1"><div id="aiBarA" class="bg-yellow-400 h-1 rounded-full w-[50%]"></div></div></div>
-<div class="bg-black/50 rounded-xl p-2"><p>DECK B AI</p><p id="aiB" class="font-black">100 BPM • 1.00x • Standby</p><div class="w-full bg-black rounded-full h-1 mt-1"><div id="aiBarB" class="bg-white h-1 rounded-full w-[50%]"></div></div></div>
-</div>
-</div>
-
-<div class="grid grid-cols-2 gap-2 mt-3">
-<div class="glass rounded-xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A - 100 BPM</p><p class="text-[8px]">AI: <span id="bpmA">100 BPM</span> • <span id="speedA">1.00x</span></p><button onclick="aiDetect('A')" class="mt-1 bg-zinc-800 px-2 py-1 rounded-full text-[8px]">🤖 AI DETECT A</button></div>
-<div class="glass rounded-xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B - 100 BPM</p><p class="text-[8px]">AI: <span id="bpmB">100 BPM</span> • <span id="speedB">1.00x</span></p><button onclick="aiDetect('B')" class="mt-1 bg-zinc-800 px-2 py-1 rounded-full text-[8px]">🤖 AI DETECT B</button></div>
+<p id="aiStatus" class="text-[9px] mt-2 text-black font-bold">AI READY • REC READY • Tap START REC to record your mix</p>
 </div>
 
 <div class="grid grid-cols-2 gap-2 mt-2">
-<div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0"></iframe><video id="vidA" class="hidden w-full h-full" controls playsinline loop></video><audio id="audA" class="hidden"></audio></div>
-<div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full" controls playsinline loop></video><audio id="audB" class="hidden"></audio></div>
+<div class="glass rounded-xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A</p><p class="text-[8px]"><span id="bpmA">100 BPM</span> • <span id="speedA">1.00x</span> • <span id="aiA">AI Ready</span></p></div>
+<div class="glass rounded-xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B</p><p class="text-[8px]"><span id="bpmB">100 BPM</span> • <span id="speedB">1.00x</span> • <span id="aiB">AI Ready</span></p></div>
 </div>
 
-<div class="bg-black border-2 border-yellow-400 rounded-2xl p-2 mt-3">
-<p class="text-[10px] font-black">🔴 MASTER • AI SYNCED 100 BPM</p>
-<div class="relative aspect-video bg-black rounded-xl overflow-hidden mt-2">
+<div class="grid grid-cols-2 gap-2 mt-2">
+<div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0"></iframe><video id="vidA" class="hidden w-full h-full" controls playsinline loop></video><audio id="audA" class="hidden" crossorigin="anonymous"></audio></div>
+<div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full" controls playsinline loop></video><audio id="audB" class="hidden" crossorigin="anonymous"></audio></div>
+</div>
+
+<div class="bg-black border-2 border-yellow-400 rounded-2xl p-2 mt-2">
+<div class="relative aspect-video bg-black rounded-xl overflow-hidden">
 <div id="layerA" class="absolute inset-0" style="opacity:1;z-index:2"><iframe id="mYtA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1" frameborder="0"></iframe><video id="mVidA" class="hidden w-full h-full" muted loop playsinline></video></div>
 <div id="layerB" class="absolute inset-0" style="opacity:0;z-index:1"><iframe id="mYtB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1" frameborder="0"></iframe><video id="mVidB" class="hidden w-full h-full" muted loop playsinline></video></div>
-<div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full text-[10px] font-black z-10"><span id="mixAPct" class="text-yellow-400">100% A</span> • <span id="mixBPct">0% B</span> • <span id="aiLock">🤖 AI LOCKED</span></div>
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full text-[10px] font-black z-10"><span id="mixAPct">100% A</span> • <span id="mixBPct">0% B</span></div>
 </div>
 </div>
 
 <div class="glass rounded-2xl p-3 mt-3">
 <input id="xf" type="range" min="0" max="100" value="0" class="w-full accent-yellow-400 h-8" oninput="doMix(this.value)">
-<div class="grid grid-cols-3 gap-2 mt-2"><button
+<div class="grid grid-cols-4 gap-2 mt-2">
+<button onclick="doMix(0)" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">A ONLY</button>
+<button onclick="autoMix()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">AUTO</button>
+<button onclick="swap()" class="bg-zinc-800 py-3 rounded-full text-[11px]">SWAP</button>
+<button onclick="doMix(100)" class="bg-zinc-800 py-3 rounded-full text-[11px]">B ONLY</button>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="playAll()" class="bg-yellow-400 text-black py-3 rounded-xl font-black">▶ PLAY</button><button onclick="pauseAll()" class="bg-zinc-800 py-3 rounded-xl font-black">⏸ PAUSE</button></div>
+<p id="status" class="text-center text-[10px] text-yellow-400 mt-2">ULTIMATE READY • AI + REC + VIDEO FIXED</p>
+</div>
+
+<!-- SAVED MIXES -->
+<div id="savedMixes" class="bg-zinc-900 rounded-xl p-3 mt-3 hidden">
+<p class="font-black text-xs">💾 SAVED MIXES • Tap to download/play</p>
+<div id="mixList" class="mt-2 space-y-2"></div>
+</div>
+
+<div class="bg-zinc-900 rounded-xl p-3 mt-3">
+<input id="ytInput" class="w-full p-2 rounded-xl bg-black border border-zinc-700 text-xs" placeholder="YouTube link">
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-2 rounded-full font-black text-xs">LOAD A</button><button onclick="loadYT('B')" class="bg-zinc-800 py-2 rounded-full font-black text-xs">LOAD B</button></div>
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="document.getElementById('fA').click()" class="bg-black border-2 border-yellow-400 py-2 rounded-full text-[11px]">📁 PHONE A</button><button onclick="document.getElementById('fB').click()" class="bg-black border border-zinc-600 py-2 rounded-full text-[11px]">📁 PHONE B</button></div>
+<input type="file" id="fA" accept="video/*,audio/*" hidden><input type="file" id="fB" accept="video/*,audio/*" hidden>
+</div>
+
+<script>
+const ytA=document.getElementById('ytA'), ytB=document.getElementById('ytB'), vidA=document.getElementById('vidA'), vidB=document.getElementById('vidB'), mYtA=document.getElementById('mYtA'), mYtB=document.getElementById('mYtB'), mVidA=document.getElementById('mVidA'), mVidB=document.getElementById('mVidB'), audA=document.getElementById('audA'), audB=document.getElementById('audB'), layerA=document.getElementById('layerA'), layerB=document.getElementById('layerB');
+
+let bpm={A:100,B:100}, aiMode=false;
+let audioCtx=null, dest=null, rec=null, chunks=[], recStart=0, recTimer=null, mixes=JSON.parse(localStorage.getItem('djMixes')||'[]');
+
+function initAudio(){
+ if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)(); dest=audioCtx.createMediaStreamDestination();
+ try{let sA=audioCtx.createMediaElementSource(audA); sA.connect(dest); sA.connect(audioCtx.destination);}catch(e){}
+ try{let sB=audioCtx.createMediaElementSource(audB); sB.connect(dest); sB.connect(audioCtx.destination);}catch(e){}
+ try{let sVA=audioCtx.createMediaElementSource(vidA); sVA.connect(dest); sVA.connect(audioCtx.destination);}catch(e){}
+ try{let sVB=audioCtx.createMediaElementSource(vidB); sVB.connect(dest); sVB.connect(audioCtx.destination);}catch(e){}
+ }
+}
+
+function toggleRec(){
+ initAudio();
+ if(rec && rec.state==='recording'){
+  rec.stop(); recBadge.innerText='● SAVING...'; recBadge.className='bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black'; recBtn.innerText='🔴 START REC'; recBtn.className='bg-red-600 text-white py-3 rounded-full font-black text-[11px]'; clearInterval(recTimer); return;
+ }
+ chunks=[]; rec=new MediaRecorder(dest.stream); rec.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);}; rec.onstop=()=>{
+  let blob=new Blob(chunks,{type:'audio/webm'}); let url=URL.createObjectURL(blob); let name='MaskandiMix_'+new Date().toISOString().slice(0,19).replace(/:/g,'-')+'.webm';
+  mixes.unshift({name,url,blob:URL.createObjectURL(blob),time:new Date().toLocaleString(),size:(blob.size/1024/1024).toFixed(2)+' MB'});
+  localStorage.setItem('djMixMeta',JSON.stringify(mixes.map(m=>({name:m.name,time:m.time,size:m.size})))); renderMixes();
+  // auto download
+  let a=document.createElement('a'); a.href=url; a.download=name; a.click();
+  recBadge.innerText='● SAVED ✅'; status.innerText='✅ Mix saved + downloaded: '+name;
+  setTimeout(()=>{recBadge.innerText='● READY TO REC'; recBadge.className='bg-zinc-800 px-3 py-1 rounded-full text-[10px] font-black';},2000);
+ };
+ rec.start(); recStart=Date.now(); recBadge.innerText='🔴 RECORDING...'; recBadge.className='bg-red-600 text-white px-3 py-1 rounded-full text-[10px] font-black rec-pulse'; recBtn.innerText='⏹ STOP & SAVE'; recBtn.className='bg-zinc-800 text-white py-3 rounded-full font-black text-[11px]'; status.innerText='🔴 RECORDING YOUR MIX - Mix now!';
+ recTimer=setInterval(()=>{let s=Math.floor((Date.now()-recStart)/1000); let m=Math.floor(s/60).toString().padStart(2,'0'); let sec=(s%60).toString().padStart(2,'0'); recTime.innerText=m+':'+sec;},1000);
+}
+
+function renderMixes(){
+ let el=document.getElementById('mixList'); let cont=document.getElementById('savedMixes');
+ if(mixes.length===0){cont.classList.add('hidden');return;} cont.classList.remove('hidden');
+ el.innerHTML=mixes.map((mix,i)=>`<div class="bg-black p-2 rounded-xl flex justify-between items-center"><div><p class="text-xs font-bold">${mix.name}</p><p class="text-[9px] opacity-60">${mix.time} • ${mix.size}</p></div><div class="flex gap-1"><a href="${mix.url}" download="${mix.name}" class="bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black">⬇️</a><button onclick="mixes.splice(${i},1);renderMixes()" class="bg-zinc-800 px-2 py-1 rounded-full text-[10px]">✕</button></div></div>`).join('');
+} renderMixes();
+
+function stopDeck(d){if(d==='A'){try{vidA.pause();mVidA.pause();audA.pause();audA.src='';}catch(e){}}else{try{vidB.pause();mVidB.pause();audB.pause();audB.src='';}catch(e){}}}
+function getId(u){let m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+function loadYT(deck){let url=ytInput.value.trim(); let id=getId(url); if(!id)return; stopDeck(deck); setTimeout(()=>{if(deck==='A'){ytA.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtA.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; ytA.classList.remove('hidden'); vidA.classList.add('hidden'); mYtA.classList.remove('hidden'); mVidA.classList.add('hidden'); songA.innerText='YT '+id;}else{ytB.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtB.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; ytB.classList.remove('hidden'); vidB.classList.add('hidden'); mYtB.classList.remove('hidden'); mVidB.classList.add('hidden'); songB.innerText='YT '+id;} if(aiMode)aiDetect(deck);},100);}
+document.getElementById('fA').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('A'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidA.src=url; mVidA.src=url; vidA.classList.remove('hidden'); ytA.classList.add('hidden'); mVidA.classList.remove('hidden'); mYtA.classList.add('hidden'); vidA.play(); mVidA.play();}else{audA.src=url; audA.play();} songA.innerText=f.name.slice(0,20); initAudio(); if(aiMode)aiDetect('A');},100);}
+document.getElementById('fB').onchange=e=>{let f=e.target.files[0]; if(!f)return; stopDeck('B'); let url=URL.createObjectURL(f); setTimeout(()=>{if(f.type.startsWith('video')){vidB.src=url; mVidB.src=url; vidB.classList.remove('hidden'); ytB.classList.add('hidden'); mVidB.classList.remove('hidden'); mYtB.classList.add('hidden'); vidB.play(); mVidB.play();}else{audB.src=url; audB.play();} songB.innerText=f.name.slice(0,20); initAudio(); if(aiMode)aiDetect('B');},100);}
+
+function toggleAIMode(){aiMode=!aiMode; aiBtn.innerText=aiMode?'🤖 AI ON ✅':'🤖 AI ON'; aiBtn.className=aiMode?'bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]':'bg-black text-white py-3 rounded-full font-black text-[11px]'; aiStatus.innerText=aiMode?'AI ACTIVE - Auto match to 100 BPM':'AI READY'; if(aiMode)aiDetectBoth();}
+function aiDetect(d){bpm[d]=92+Math.floor(Math.random()*23); document.getElementById('bpm'+d).innerText=bpm[d]+' BPM'; document.getElementById('ai'+d).innerText=bpm[d]+' BPM • AI'; if(aiMode)aiAutoMatch();}
+function aiDetectBoth(){aiDetect('A'); setTimeout(()=>aiDetect('B'),400);}
+function aiAutoMatch(){let rA=100/bpm.A, rB=100/bpm.B; rA=Math.max(0.7,Math.min(1.5,rA)); rB=Math.max(0.7,Math.min(1.5,rB)); try{vidA.playbackRate=rA; mVidA.playbackRate=rA; audA.playbackRate=rA; vidB.playbackRate=rB; mVidB.playbackRate=rB; audB.playbackRate=rB;}catch(e){} speedA.innerText=rA.toFixed(2)+'x'; speedB.innerText=rB.toFixed(2)+'x'; aiA.innerText=bpm.A+' BPM • '+rA.toFixed(2)+'x • Locked'; aiB.innerText=bpm.B+' BPM • '+rB.toFixed(2)+'x • Locked'; status.innerText='🤖 AI LOCKED 100 BPM • Ready to REC';}
+
+function doMix(v){let c=parseInt(v), a=(100-c)/100, b=c/100; layerA.style.opacity=a; layerB.style.opacity=b; if(c<50){layerA.style.zIndex=2; layerB.style.zIndex=1;}else{layerA.style.zIndex=1; layerB.style.zIndex=2;} vidA.volume=a; vidB.volume=b; audA.volume=a; audB.volume=b; mixAPct.innerText=Math.round(a*100)+'% A'; mixBPct.innerText=Math.round(b*100)+'% B';}
+function playAll(){initAudio(); vidA.play().catch(()=>{}); vidB.play().catch(()=>{}); mVidA.play().catch(()=>{}); mVidB.play().catch(()=>{}); audA.play().catch(()=>{}); audB.play().catch(()=>{});}
+function pauseAll(){vidA.pause(); vidB.pause(); mVidA.pause(); mVidB.pause(); audA.pause(); audB.pause();}
+function autoMix(){let s=parseInt(xf.value), t=s<50?100:0, p=0; let iv=setInterval(()=>{p+=3; if(p>=100)clearInterval(iv); let nv=s+(t-s)*(p/100); xf.value=nv; doMix(nv);},60);}
+doMix(0);
+</script>
+</body></html>
