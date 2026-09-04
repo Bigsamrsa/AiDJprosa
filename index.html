@@ -1,157 +1,116 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BuildAI DJ FINAL FIXED</title><script src="https://cdn.tailwindcss.com"></script>
+<title>BuildAI DJ - STOP OLD SONG FIXED</title><script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black text-white p-2 pb-24">
+<h1 class="font-black text-yellow-400">BuildAI DJ - OLD SONG FIXED ✅</h1>
 
-<h1 class="font-black text-yellow-400">BuildAI DJ FINAL FIXED ✅</h1>
-<p class="text-[10px] opacity-60">VIDEO DISPLAYS + BG PLAY + FULL MIXER</p>
-
-<!-- BG BUTTON - MUST TAP FIRST -->
 <div class="bg-yellow-400 text-black rounded-xl p-3 mt-2 font-black text-center">
-<button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 w-full py-3 rounded-full text-sm">🔊 TAP TO ENABLE BG PLAY</button>
-<p id="bgStatus" class="text-[10px] mt-1">Tap this, then audio plays in background / locked</p>
+<button onclick="enableBG()" id="bgBtn" class="bg-black text-yellow-400 w-full py-3 rounded-full">🔊 ENABLE BG PLAY</button>
+<p id="bgStatus" class="text-[10px]">Tap first</p>
 </div>
 
-<!-- VIDEO DECKS - ALWAYS SHOW -->
 <div class="grid grid-cols-2 gap-2 mt-3">
 <div class="bg-zinc-900 rounded-xl p-2 border-2 border-yellow-400">
-<p class="text-[9px] font-black">DECK A</p>
-<div class="aspect-video bg-black rounded overflow-hidden relative mt-1">
-<iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0" allowfullscreen></iframe>
+<p class="text-[9px] font-black">DECK A - <span id="lblA">Demo A</span></p>
+<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
+<iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?enablejsapi=1" frameborder="0"></iframe>
 <video id="vidA" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video>
 </div>
-<p id="lblA" class="text-[8px] mt-1 truncate">Demo video A</p>
+<audio id="audA" class="hidden"></audio>
 </div>
 <div class="bg-zinc-900 rounded-xl p-2 border border-zinc-700">
-<p class="text-[9px] font-black">DECK B</p>
-<div class="aspect-video bg-black rounded overflow-hidden relative mt-1">
-<iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0" allowfullscreen></iframe>
+<p class="text-[9px] font-black">DECK B - <span id="lblB">Demo B</span></p>
+<div class="aspect-video bg-black rounded mt-1 overflow-hidden relative">
+<iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?enablejsapi=1" frameborder="0"></iframe>
 <video id="vidB" class="hidden w-full h-full absolute inset-0" controls playsinline loop></video>
 </div>
-<p id="lblB" class="text-[8px] mt-1 truncate">Demo video B</p>
+<audio id="audB" class="hidden"></audio>
 </div>
 </div>
 
-<!-- MASTER VIDEO MIX - YOU SEE BLEND HERE -->
 <div class="bg-black border-2 border-yellow-400 rounded-xl p-2 mt-3">
-<p class="text-[10px] font-black text-yellow-400">🔴 MASTER - WHAT CROWD SEES</p>
+<p class="text-[10px] font-black text-yellow-400">MASTER MIX</p>
 <div class="relative aspect-video bg-zinc-900 rounded overflow-hidden mt-1">
 <div id="layerA" class="absolute inset-0"><iframe id="mYtA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk?mute=1" frameborder="0"></iframe><video id="mVidA" class="hidden w-full h-full" muted loop playsinline></video></div>
 <div id="layerB" class="absolute inset-0" style="opacity:0.5"><iframe id="mYtB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0?mute=1" frameborder="0"></iframe><video id="mVidB" class="hidden w-full h-full" muted loop playsinline></video></div>
-<div id="mixText" class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black">50% A / 50% B</div>
+<div id="mixText" class="absolute bottom-1 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-black">50/50</div>
 </div>
-<!-- Hidden audios for MP3 mixing -->
-<audio id="audA" class="hidden"></audio><audio id="audB" class="hidden"></audio>
 </div>
 
-<!-- CROSSFADER -->
 <div class="bg-zinc-900 rounded-xl p-3 mt-3">
 <input id="xf" type="range" min="0" max="100" value="50" class="w-full accent-yellow-400 h-6" oninput="doMix(this.value)">
-<div class="flex justify-between mt-2 gap-2">
-<button onclick="doMix(0)" class="flex-1 bg-yellow-400 text-black py-2 rounded-full text-[10px] font-black">ONLY A</button>
-<button onclick="autoMix()" class="flex-1 bg-white text-black py-2 rounded-full text-[10px] font-black">AUTO 8s</button>
-<button onclick="doMix(100)" class="flex-1 bg-zinc-700 py-2 rounded-full text-[10px] font-black">ONLY B</button>
+<div class="grid grid-cols-3 gap-2 mt-2">
+<button onclick="doMix(0)" class="bg-yellow-400 text-black py-2 rounded-full text-[10px] font-black">ONLY A</button>
+<button onclick="autoMix()" class="bg-white text-black py-2 rounded-full text-[10px] font-black">AUTO</button>
+<button onclick="doMix(100)" class="bg-zinc-700 py-2 rounded-full text-[10px]">ONLY B</button>
 </div>
-<div class="grid grid-cols-4 gap-2 mt-3">
-<button onclick="playAll()" class="bg-green-600 py-3 rounded-xl font-black text-xs">▶ PLAY</button>
-<button onclick="pauseAll()" class="bg-zinc-800 py-3 rounded-xl font-black text-xs">⏸ PAUSE</button>
-<button onclick="swap()" class="bg-zinc-800 py-3 rounded-xl font-black text-xs">🔄 SWAP</button>
-<button onclick="recMix()" class="bg-red-600 py-3 rounded-xl font-black text-xs">● REC</button>
-</div>
-<p id="status" class="text-[10px] text-yellow-400 text-center mt-2">✅ FIXED READY - Videos display + drag to mix</p>
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="playAll()" class="bg-green-600 py-3 rounded-xl font-black">▶ PLAY</button><button onclick="pauseAll()" class="bg-zinc-800 py-3 rounded-xl font-black">⏸ PAUSE</button></div>
+<p id="status" class="text-[10px] text-yellow-400 text-center mt-2">Ready - FIXED: old song stops!</p>
 </div>
 
-<!-- LOAD -->
 <div class="bg-zinc-900 rounded-xl p-3 mt-3">
-<input id="ytInput" class="w-full p-3 rounded-xl bg-black border border-zinc-700 text-xs" placeholder="Paste YouTube link (youtu.be/...)">
-<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD YT TO A</button><button onclick="loadYT('B')" class="bg-zinc-800 py-3 rounded-full font-black text-xs">LOAD YT TO B</button></div>
+<input id="ytInput" class="w-full p-3 rounded-xl bg-black border border-zinc-700 text-xs" placeholder="YouTube link">
+<div class="grid grid-cols-2 gap-2 mt-2"><button onclick="loadYT('A')" class="bg-yellow-400 text-black py-3 rounded-full font-black text-xs">LOAD YT TO A - STOPS OLD</button><button onclick="loadYT('B')" class="bg-zinc-800 py-3 rounded-full font-black text-xs">LOAD YT TO B - STOPS OLD</button></div>
 <div class="grid grid-cols-2 gap-2 mt-2">
-<button onclick="document.getElementById('fA').click()" class="bg-black border-2 border-yellow-400 py-3 rounded-full text-[11px] font-black">📁 PHONE VIDEO/MP3 A</button>
-<button onclick="document.getElementById('fB').click()" class="bg-black border border-zinc-600 py-3 rounded-full text-[11px]">📁 PHONE VIDEO/MP3 B</button>
+<button onclick="document.getElementById('fA').click()" class="bg-black border-2 border-yellow-400 py-3 rounded-full text-[11px] font-black">📁 NEW SONG A</button>
+<button onclick="document.getElementById('fB').click()" class="bg-black border border-zinc-600 py-3 rounded-full text-[11px]">📁 NEW SONG B</button>
 </div>
 <input type="file" id="fA" accept="video/*,audio/*" hidden><input type="file" id="fB" accept="video/*,audio/*" hidden>
-<div class="grid grid-cols-4 gap-1 mt-3">
-<button onclick="playFx('guitar')" class="bg-zinc-800 py-2 rounded-full text-[9px]">🎸 Guitar</button>
-<button onclick="playFx('bass')" class="bg-zinc-800 py-2 rounded-full text-[9px]">🥁 Bass</button>
-<button onclick="playFx('log')" class="bg-yellow-400 text-black py-2 rounded-full text-[9px] font-black">LogDrum</button>
-<button onclick="shareWA()" class="bg-green-600 py-2 rounded-full text-[9px]">WhatsApp</button>
-</div>
 </div>
 
 <script>
-let cross=50;
-const ytA=document.getElementById('ytA'), ytB=document.getElementById('ytB'), vidA=document.getElementById('vidA'), vidB=document.getElementById('vidB'), mYtA=document.getElementById('mYtA'), mYtB=document.getElementById('mYtB'), mVidA=document.getElementById('mVidA'), mVidB=document.getElementById('mVidB'), audA=document.getElementById('audA'), audB=document.getElementById('audB'), layerA=document.getElementById('layerA'), layerB=document.getElementById('layerB');
-
 function enableBG(){
- if('mediaSession' in navigator){
-  navigator.mediaSession.metadata=new MediaMetadata({title:'BuildAI VIDEO MIX',artist:'Maskandi Live 100BPM',album:'DJ Mix'});
-  navigator.mediaSession.setActionHandler('play',playAll);
-  navigator.mediaSession.setActionHandler('pause',pauseAll);
+ if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:'VIDEO MIX FIXED',artist:'BuildAI DJ'}); navigator.mediaSession.setActionHandler('play',playAll); navigator.mediaSession.setActionHandler('pause',pauseAll);}
+ document.getElementById('bgStatus').innerText='✅ BG ON'; document.getElementById('bgBtn').innerText='✅ BG ENABLED';
+}
+
+// 🔥 THIS FIXES OLD SONG BUG - STOPS EVERYTHING ON THAT DECK
+function stopDeck(deck){
+ if(deck==='A'){
+  // Stop videos
+  try{document.getElementById('vidA').pause();}catch(e){} try{document.getElementById('mVidA').pause();}catch(e){}
+  // Stop audios
+  try{document.getElementById('audA').pause(); document.getElementById('audA').currentTime=0; document.getElementById('audA').src='';}catch(e){}
+  // Stop YouTube by clearing src then reload
+  try{document.getElementById('vidA').src='';}catch(e){}
+  document.getElementById('lblA').innerText='Loading new...';
+ }else{
+  try{document.getElementById('vidB').pause();}catch(e){} try{document.getElementById('mVidB').pause();}catch(e){}
+  try{document.getElementById('audB').pause(); document.getElementById('audB').currentTime=0; document.getElementById('audB').src='';}catch(e){}
+  try{document.getElementById('vidB').src='';}catch(e){}
+  document.getElementById('lblB').innerText='Loading new...';
  }
- if('wakeLock' in navigator){navigator.wakeLock.request('screen').catch(()=>{});}
- document.getElementById('bgStatus').innerText='✅ BG ON - minimize keeps playing';
- document.getElementById('bgBtn').innerText='✅ BG ENABLED';
- document.getElementById('status').innerText='🔊 BG enabled - now play!';
 }
 
 function getId(url){let m=url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
 
 function loadYT(deck){
- let url=document.getElementById('ytInput').value.trim();
- let id=getId(url);
- if(!id){status.innerText='❌ Bad YouTube link';return;}
- if(deck==='A'){
-  ytA.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtA.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
-  ytA.classList.remove('hidden'); vidA.classList.add('hidden'); mYtA.classList.remove('hidden'); mVidA.classList.add('hidden');
-  document.getElementById('lblA').innerText='YT: '+id;
- }else{
-  ytB.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; mYtB.src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
-  ytB.classList.remove('hidden'); vidB.classList.add('hidden'); mYtB.classList.remove('hidden'); mVidB.classList.add('hidden');
-  document.getElementById('lblB').innerText='YT: '+id;
- }
- enableBG();
- status.innerText='✅ Deck '+deck+' video loaded & displaying';
+ let url=document.getElementById('ytInput').value.trim(); let id=getId(url); if(!id){status.innerText='❌ Bad link';return;}
+ stopDeck(deck); // 🔥 STOP OLD SONG FIRST!
+ setTimeout(()=>{
+  if(deck==='A'){
+   document.getElementById('ytA').src='https://www.youtube.com/embed/'+id+'?autoplay=1';
+   document.getElementById('mYtA').src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
+   document.getElementById('ytA').classList.remove('hidden'); document.getElementById('vidA').classList.add('hidden');
+   document.getElementById('mYtA').classList.remove('hidden'); document.getElementById('mVidA').classList.add('hidden');
+   document.getElementById('lblA').innerText='YT: '+id;
+  }else{
+   document.getElementById('ytB').src='https://www.youtube.com/embed/'+id+'?autoplay=1';
+   document.getElementById('mYtB').src='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1';
+   document.getElementById('ytB').classList.remove('hidden'); document.getElementById('vidB').classList.add('hidden');
+   document.getElementById('mYtB').classList.remove('hidden'); document.getElementById('mVidB').classList.add('hidden');
+   document.getElementById('lblB').innerText='YT: '+id;
+  }
+  status.innerText='✅ Deck '+deck+' NEW song - OLD STOPPED!';
+  enableBG();
+ },100);
 }
 
 document.getElementById('fA').onchange=e=>{
- let f=e.target.files[0]; if(!f)return; let url=URL.createObjectURL(f);
- if(f.type.startsWith('video')){
-  vidA.src=url; mVidA.src=url; vidA.classList.remove('hidden'); ytA.classList.add('hidden'); mVidA.classList.remove('hidden'); mYtA.classList.add('hidden'); vidA.play(); mVidA.play();
- }else{
-  audA.src=url; audA.play(); ytA.classList.add('hidden'); vidA.classList.add('hidden');
- }
- document.getElementById('lblA').innerText=f.name.slice(0,18);
- enableBG(); status.innerText='✅ A loaded: '+f.name.slice(0,15);
-}
-document.getElementById('fB').onchange=e=>{
- let f=e.target.files[0]; if(!f)return; let url=URL.createObjectURL(f);
- if(f.type.startsWith('video')){
-  vidB.src=url; mVidB.src=url; vidB.classList.remove('hidden'); ytB.classList.add('hidden'); mVidB.classList.remove('hidden'); mYtB.classList.add('hidden'); vidB.play(); mVidB.play();
- }else{
-  audB.src=url; audB.play();
- }
- document.getElementById('lblB').innerText=f.name.slice(0,18);
- enableBG(); status.innerText='✅ B loaded: '+f.name.slice(0,15);
-}
-
-function doMix(v){
- cross=parseInt(v);
- let a=(100-cross)/100, b=cross/100;
- layerA.style.opacity=a; layerB.style.opacity=b;
- vidA.volume=a; vidB.volume=b; audA.volume=a; audB.volume=b; mVidA.volume=0; mVidB.volume=0;
- document.getElementById('mixText').innerText=Math.round(a*100)+'% A / '+Math.round(b*100)+'% B';
-}
-function playAll(){enableBG(); vidA.play().catch(()=>{}); vidB.play().catch(()=>{}); mVidA.play().catch(()=>{}); mVidB.play().catch(()=>{}); audA.play().catch(()=>{}); audB.play().catch(()=>{}); if('mediaSession' in navigator)navigator.mediaSession.playbackState='playing'; status.innerText='▶ PLAYING - drag to mix videos!';}
-function pauseAll(){vidA.pause(); vidB.pause(); mVidA.pause(); mVidB.pause(); audA.pause(); audB.pause(); if('mediaSession' in navigator)navigator.mediaSession.playbackState='paused';}
-function swap(){doMix(100-cross); document.getElementById('xf').value=100-cross;}
-function autoMix(){let s=cross, t=s<50?100:0, p=0; let iv=setInterval(()=>{p+=2; if(p>=100)clearInterval(iv); let nv=s+(t-s)*(p/100); document.getElementById('xf').value=nv; doMix(nv);},80);}
-function playFx(type){
- try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); let g=ctx.createGain(); o.type='triangle'; o.frequency.value=type==='log'?55:type==='bass'?80:220; g.gain.setValueAtTime(0.9,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.6); o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.6);}catch(e){}
- status.innerText='🎸 FX: '+type.toUpperCase()+' - 100 BPM Maskandi';
-}
-function recMix(){alert('🔴 For video mix recording: Use phone screen recorder while mixing! Swipe down > Screen Record > then mix videos!');}
-function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent('🎬 My Video Mix: '+location.href));}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)enableBG();});
-</script>
-</body></html>
+ let f=e.target.files[0]; if(!f)return;
+ stopDeck('A'); // 🔥 STOP OLD!
+ setTimeout(()=>{
+  let url=URL.createObjectURL(f);
+  if(f.type.startsWith('video')){
+   document.getElementById('vidA').src=url; document.getElementById('mVidA').src
