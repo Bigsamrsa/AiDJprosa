@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DJ - RECORD YOUTUBE VIDEO</title><script src="https://cdn.tailwindcss.com"></script>
@@ -5,6 +6,7 @@
 </head>
 <body class="bg-black text-white p-2 pb-40">
 <div class="flex justify-between"><h1 class="font-black">BuildAI <span class="text-yellow-400">RECORD YT VIDEO</span></h1><div id="recBadge" class="bg-zinc-800 px-3 py-1 rounded-full text-[10px] font-black">READY</div></div>
+
 <div class="bg-gradient-to-r from-red-600 to-yellow-400 rounded-2xl p-3 mt-2">
   <div class="flex justify-between"><p class="font-black text-xs">🔴 VIDEO RECORD MODE</p><p id="recTime" class="font-mono bg-black text-yellow-400 px-2 py-1 rounded text-xs">00:00</p></div>
   <div class="grid grid-cols-2 gap-2 mt-2">
@@ -13,14 +15,17 @@
   </div>
   <p id="aiStatus" class="text-[9px] mt-2 font-bold text-black">TAP VIDEO REC for phone files • SCREEN REC for YouTube • Saves as MP4</p>
 </div>
+
 <div class="grid grid-cols-2 gap-2 mt-2">
-  <div class="glass rounded-xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A</p><p class="text-[9px]"><span id="bpmA">100 BPM</span> • <span id="speedA">1.00x</span></p></div>
-  <div class="glass rounded-xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B</p><p class="text-[9px]"><span id="bpmB">100 BPM</span> • <span id="speedB">1.00x</span></p></div>
+  <div class="glass rounded-xl p-2 border-2 border-yellow-400"><p id="songA" class="font-black text-xs truncate">Video A</p><p class="text-[9px]"><span id="bpmA">100 BPM</span> • <span id="speedA">1.00x</span></p><p id="musicAName" class="text-[9px] text-yellow-400 truncate mt-1">No music A</p></div>
+  <div class="glass rounded-xl p-2 border border-zinc-700"><p id="songB" class="font-black text-xs truncate">Video B</p><p class="text-[9px]"><span id="bpmB">100 BPM</span> • <span id="speedB">1.00x</span></p><p id="musicBName" class="text-[9px] text-yellow-400 truncate mt-1">No music B</p></div>
 </div>
+
 <div class="grid grid-cols-2 gap-2 mt-2">
   <div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytA" class="w-full h-full" src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0"></iframe><video id="vidA" class="hidden w-full h-full" controls playsinline loop crossorigin="anonymous"></video><audio id="audA" class="hidden" crossorigin="anonymous"></audio></div>
   <div class="aspect-video bg-zinc-900 rounded-xl overflow-hidden"><iframe id="ytB" class="w-full h-full" src="https://www.youtube.com/embed/9bZkp7q19f0" frameborder="0"></iframe><video id="vidB" class="hidden w-full h-full" controls playsinline loop crossorigin="anonymous"></video><audio id="audB" class="hidden" crossorigin="anonymous"></audio></div>
 </div>
+
 <!-- MASTER VIDEO + CANVAS FOR RECORD -->
 <div class="bg-black border-2 border-yellow-400 rounded-2xl p-2 mt-2">
   <div class="relative aspect-video bg-black rounded-xl overflow-hidden" id="masterStage">
@@ -30,34 +35,27 @@
   </div>
   <canvas id="recordCanvas" class="hidden" width="1280" height="720"></canvas>
 </div>
-<div class="glass rounded-2xl p-3 mt-3">
-  <input id="xf" type="range" min="0" max="100" value="0" class="w-full accent-yellow-400 h-8" oninput="doMix(this.value)">
-  <div class="grid grid-cols-4 gap-2 mt-2"><button onclick="doMix(0)" class="bg-yellow-400 text-black py-3 rounded-full font-black text-[11px]">ONLY A</button><button onclick="autoMix()" class="bg-white text-black py-3 rounded-full font-black text-[11px]">AUTO</button><button onclick="swap()" class="bg-zinc-800 py-3 rounded-full text-[11px]">SWAP</button><button onclick="doMix(100)" class="bg-zinc-800 py-3 rounded-full text-[11px]">ONLY B</button></div>
-  <div class="grid grid-cols-2 gap-2 mt-2"><button onclick="playAll()" class="bg-yellow-400 text-black py-3 rounded-xl font-black">▶️ PLAY</button><button onclick="pauseAll()" class="bg-zinc-800 py-3 rounded-xl font-black">⏸️ PAUSE</button></div>
-  <p id="status" class="text-center text-[10px] text-yellow-400 mt-2">VIDEO RECORD READY</p>
-  
-  <!-- DJ EFFECTS SECTION -->
-  <div class="mt-3 border-t border-zinc-700 pt-3">
-    <p class="font-black text-xs mb-2">🎛️ DJ EFFECTS</p>
-    <div class="grid grid-cols-2 gap-2">
-      <button onclick="applyEffect('fade')" class="bg-zinc-800 py-2 rounded-full text-[11px]">✨ Fade</button>
-      <button onclick="applyEffect('strobe')" class="bg-zinc-800 py-2 rounded-full text-[11px]">⚡️ Strobe</button>
-      <button onclick="applyEffect('invert')" class="bg-zinc-800 py-2 rounded-full text-[11px]">🔄 Invert</button>
-      <button onclick="applyEffect('gray')" class="bg-zinc-800 py-2 rounded-full text-[11px]">🔲 Grayscale</button>
-      <button onclick="applyEffect('pixel')" class="bg-zinc-800 py-2 rounded-full text-[11px]">🔸 Pixelate</button>
-      <button onclick="clearEffects()" class="bg-red-600 py-2 rounded-full text-[11px]">❌ Clear</button>
+
+<!-- SLIDING FADER -->
+<div class="bg-zinc-900 rounded-2xl p-4 mt-3 border-2 border-yellow-400">
+  <div class="flex justify-between items-center">
+    <p class="font-black text-xs">🎛️ SLIDING FADER</p>
+    <p class="text-[10px] font-black"><span id="faderAPct" class="text-yellow-400">100% A</span> • <span id="faderBPct">0% B</span></p>
+  </div>
+  <div class="relative mt-4 h-14 bg-black rounded-full border border-zinc-700 px-2 flex items-center" id="faderTrack">
+    <div class="absolute left-1/2 top-0 bottom-0 w-[2px] bg-zinc-700 -translate-x-1/2"></div>
+    <div id="faderFill" class="absolute left-2 top-1/2 -translate-y-1/2 h-3 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full" style="width:0%"></div>
+    <div id="faderKnob" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-b from-white to-zinc-400 rounded-2xl shadow-2xl border-2 border-black flex flex-col items-center justify-center cursor-grab active:cursor-grabbing touch-none z-10" style="left:0%">
+      <div class="w-6 h-[3px] bg-black rounded"></div><div class="w-6 h-[3px] bg-black rounded mt-1"></div><div class="w-6 h-[3px] bg-black rounded mt-1"></div>
+      <div class="text-[7px] font-black mt-1">DRAG</div>
     </div>
   </div>
-  
-  <!-- UPLOAD EFFECTS SECTION -->
-  <div class="mt-3 border-t border-zinc-700 pt-3">
-    <p class="font-black text-xs mb-2">💾 CUSTOM EFFECTS</p>
-    <textarea id="effectCode" class="w-full bg-black border border-zinc-700 rounded-xl p-2 text-xs" placeholder="Paste JS/CSS effect code..."></textarea>
-    <button onclick="applyCustomEffect()" class="bg-yellow-400 text-black py-2 rounded-full font-black text-xs mt-2">APPLY CUSTOM EFFECT</button>
+  <div class="flex justify-between mt-2 text-[10px] font-black"><span class="text-yellow-400">◀️ DECK A</span><span class="text-zinc-500">CENTER</span><span>DECK B ▶️</span></div>
+  <div class="grid grid-cols-4 gap-2 mt-3">
+    <button onclick="setFader(0)" class="bg-yellow-400 text-black py-2 rounded-full font-black text-[11px]">ONLY A</button>
+    <button onclick="setFader(50)" class="bg-white text-black py-2 rounded-full font-black text-[11px]">50/50</button>
+    <button onclick="autoFader()" class="bg-zinc-800 py-2 rounded-full text-[11px]">AUTO</button>
+    <button onclick="setFader(100)" class="bg-zinc-800 py-2 rounded-full text-[11px]">ONLY B</button>
   </div>
-</div>
-<div id="savedMixes" class="bg-zinc-900 rounded-2xl p-3 mt-3">
-  <p class="font-black text-xs">💾 SAVED VIDEO MIXES</p><div id="mixList" class="mt-2 text-[10px] opacity-60">No recordings - Record saves here</div>
-</div>
-<div class="bg-zinc-900 rounded-2xl p-3 mt-3">
-  <input id="
+  <div class="grid grid-cols-2 gap-3 mt-4">
+    <div class="bg-black p-3 rounded-xl text-center"><p class="text-[10px] font-bold text-yellow-400">VOL A</p><input id="volA" type="range" min="0" max="100" value="100" orient="vertical" class="w-full h-28 accent-yellow-400 mt-2" oninput="setVol('A',this.value)" style="writing-mode:vertical-lr; direction:rtl"><p
